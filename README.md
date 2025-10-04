@@ -4,12 +4,14 @@ Sistema web completo para el control de entrada y salida de vehículos en una co
 
 ## ✨ Características
 
+- **🔐 Sistema de Login**: Autenticación segura con roles (admin/operador)
+- **📊 Dashboard Interactivo**: Gráficos y estadísticas en tiempo real
 - **Registro de Entrada/Salida**: Control completo de movimientos vehiculares
 - **Gestión de Vehículos**: Registro de vehículos y propietarios
 - **Reportes y Consultas**: Historial detallado con filtros por fecha
 - **Interfaz Moderna**: Diseño responsive y atractivo
 - **Validaciones**: Validación de datos en tiempo real
-- **Estadísticas**: Dashboard con métricas en tiempo real
+- **Búsqueda Inteligente**: Autocompletado por placa o DNI
 
 ## 🚀 Instalación
 
@@ -37,7 +39,10 @@ Sistema web completo para el control de entrada y salida de vehículos en una co
 
 4. **Acceder al Sistema**
    - Abrir navegador web
-   - Ir a: `http://localhost/Sistema_cochera/`
+   - Ir a: `http://localhost/Sistema_cochera/login.php`
+   - Usar las credenciales de prueba:
+     - **Admin**: usuario: `admin`, contraseña: `admin123`
+     - **Operador**: usuario: `operador`, contraseña: `admin123`
 
 ## 📋 Estructura del Proyecto
 
@@ -51,7 +56,12 @@ Sistema_cochera/
 │   └── functions.php        # Funciones PHP auxiliares
 ├── js/
 │   └── script.js           # JavaScript
+├── ajax/
+│   └── buscar.php          # API para búsquedas AJAX
 ├── index.php               # Página principal (registro)
+├── login.php              # Sistema de autenticación
+├── logout.php             # Cerrar sesión
+├── dashboard.php          # Dashboard con gráficos
 ├── vehiculos.php          # Gestión de vehículos
 ├── reportes.php           # Reportes y consultas
 ├── database.sql           # Estructura de base de datos
@@ -69,7 +79,10 @@ Sistema_cochera/
    - id, placa, tipo_vehiculo, marca, modelo, color, usuario_id
 
 3. **movimientos**: Registro de entrada/salida
-   - id, vehiculo_id, usuario_id, tipo_movimiento, fecha_hora_entrada, fecha_hora_salida, observaciones, estado
+   - id, vehiculo_id, usuario_id, tipo_movimiento, fecha_hora_entrada, fecha_hora_salida, observaciones, estado, precio_total, tiempo_estacionado
+
+4. **administradores**: Usuarios del sistema
+   - id, usuario, password, nombre, email, rol, activo, fecha_registro, ultimo_acceso
 
 ## 🎯 Uso del Sistema
 
@@ -83,7 +96,14 @@ Sistema_cochera/
 - Seleccionar tipo de movimiento (Entrada/Salida)
 - El sistema verificará que el DNI coincida con el propietario registrado
 
-### 3. Consulta de Reportes
+### 3. Dashboard y Estadísticas
+- Ir a la pestaña "Dashboard"
+- Ver gráficos de días más ocupados
+- Analizar horas pico de entrada/salida
+- Revisar distribución de tipos de vehículos
+- Monitorear ingresos por día
+
+### 4. Consulta de Reportes
 - Ir a la pestaña "Reportes"
 - Filtrar por fechas o ver todos los registros
 - Exportar datos a CSV o imprimir reportes

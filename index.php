@@ -1,6 +1,10 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+// Verificar login
+verificarLogin();
 
 // Procesar formulario de entrada/salida
 $mensaje = '';
@@ -100,28 +104,35 @@ $vehiculos_activos = $stmt->fetchAll();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Control de Vehículos</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>🏢 Sistema de Control de Vehículos</h1>
             <nav>
                 <a href="index.php" class="nav-link active">Registro</a>
+                <a href="dashboard.php" class="nav-link">Dashboard</a>
                 <a href="reportes.php" class="nav-link">Reportes</a>
                 <a href="vehiculos.php" class="nav-link">Vehículos</a>
+                <a href="logout.php" class="nav-link">🚪 Salir</a>
             </nav>
+            <div class="user-info">
+                <span>👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo ucfirst($_SESSION['rol']); ?>)</span>
+            </div>
         </header>
 
         <main>
             <?php if ($mensaje): ?>
-                <div class="alert alert-<?php echo $tipo_mensaje; ?>">
-                    <?php echo $mensaje; ?>
-                </div>
+            <div class="alert alert-<?php echo $tipo_mensaje; ?>">
+                <?php echo $mensaje; ?>
+            </div>
             <?php endif; ?>
 
             <div class="grid-container">
@@ -133,14 +144,14 @@ $vehiculos_activos = $stmt->fetchAll();
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="placa">Placa del Vehículo:</label>
-                                <input type="text" id="placa" name="placa" required 
-                                       placeholder="Ej: ABC123, AB-1234, 123ABC" maxlength="10">
+                                <input type="text" id="placa" name="placa" required
+                                    placeholder="Ej: ABC123, AB-1234, 123ABC" maxlength="10">
                             </div>
 
                             <div class="form-group">
                                 <label for="dni">DNI del Conductor:</label>
-                                <input type="text" id="dni" name="dni" required 
-                                       placeholder="Ej: 12345678" maxlength="8">
+                                <input type="text" id="dni" name="dni" required placeholder="Ej: 12345678"
+                                    maxlength="8">
                             </div>
                         </div>
 
@@ -159,8 +170,7 @@ $vehiculos_activos = $stmt->fetchAll();
 
                             <div class="form-group">
                                 <label for="precio_dia">Precio por Día:</label>
-                                <input type="text" id="precio_dia" readonly 
-                                       placeholder="Se selecciona automáticamente">
+                                <input type="text" id="precio_dia" readonly placeholder="Se selecciona automáticamente">
                             </div>
                         </div>
 
@@ -178,8 +188,8 @@ $vehiculos_activos = $stmt->fetchAll();
 
                         <div class="form-group">
                             <label for="observaciones">Observaciones:</label>
-                            <textarea id="observaciones" name="observaciones" 
-                                      placeholder="Comentarios adicionales (opcional)"></textarea>
+                            <textarea id="observaciones" name="observaciones"
+                                placeholder="Comentarios adicionales (opcional)"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
@@ -193,24 +203,27 @@ $vehiculos_activos = $stmt->fetchAll();
                     <h2>🚗 Vehículos Activos (En Cochera)</h2>
                     <div class="activos-container">
                         <?php if (empty($vehiculos_activos)): ?>
-                            <p class="no-data">No hay vehículos activos en la cochera</p>
+                        <p class="no-data">No hay vehículos activos en la cochera</p>
                         <?php else: ?>
-                            <?php foreach ($vehiculos_activos as $activo): ?>
-                                <div class="activo-item">
-                                    <div class="activo-header">
-                                        <span class="placa"><?php echo htmlspecialchars($activo['placa']); ?></span>
-                                        <span class="tipo"><?php echo htmlspecialchars($activo['tipo_vehiculo']); ?></span>
-                                    </div>
-                                    <div class="activo-info">
-                                        <p><strong>Conductor:</strong> <?php echo htmlspecialchars($activo['nombre'] . ' ' . $activo['apellido']); ?></p>
-                                        <p><strong>Entrada:</strong> <?php echo date('d/m/Y H:i', strtotime($activo['fecha_hora_entrada'])); ?></p>
-                                        <p><strong>Precio/Día:</strong> S/ <?php echo number_format($activo['precio_por_dia'], 2); ?></p>
-                                        <?php if ($activo['observaciones']): ?>
-                                            <p><strong>Obs:</strong> <?php echo htmlspecialchars($activo['observaciones']); ?></p>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
+                        <?php foreach ($vehiculos_activos as $activo): ?>
+                        <div class="activo-item">
+                            <div class="activo-header">
+                                <span class="placa"><?php echo htmlspecialchars($activo['placa']); ?></span>
+                                <span class="tipo"><?php echo htmlspecialchars($activo['tipo_vehiculo']); ?></span>
+                            </div>
+                            <div class="activo-info">
+                                <p><strong>Conductor:</strong>
+                                    <?php echo htmlspecialchars($activo['nombre'] . ' ' . $activo['apellido']); ?></p>
+                                <p><strong>Entrada:</strong>
+                                    <?php echo date('d/m/Y H:i', strtotime($activo['fecha_hora_entrada'])); ?></p>
+                                <p><strong>Precio/Día:</strong> S/
+                                    <?php echo number_format($activo['precio_por_dia'], 2); ?></p>
+                                <?php if ($activo['observaciones']): ?>
+                                <p><strong>Obs:</strong> <?php echo htmlspecialchars($activo['observaciones']); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                 </section>
@@ -224,4 +237,5 @@ $vehiculos_activos = $stmt->fetchAll();
 
     <script src="js/script.js"></script>
 </body>
+
 </html>

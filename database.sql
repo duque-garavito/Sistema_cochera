@@ -53,3 +53,21 @@ INSERT INTO vehiculos (placa, tipo_vehiculo, marca, modelo, color, usuario_id, p
 ('ABC123', 'Auto', 'Toyota', 'Corolla', 'Blanco', 1, 10.00),
 ('XY-4567', 'Moto', 'Honda', 'CB190R', 'Rojo', 2, 4.00),
 ('123ABC', 'Auto', 'Nissan', 'Sentra', 'Negro', 3, 10.00);
+
+-- Tabla para usuarios administrativos del sistema
+CREATE TABLE IF NOT EXISTS administradores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    rol ENUM('admin', 'operador') DEFAULT 'operador',
+    activo TINYINT(1) DEFAULT 1,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ultimo_acceso TIMESTAMP NULL
+);
+
+-- Insertar administrador por defecto (usuario: admin, contraseña: admin123)
+INSERT INTO administradores (usuario, password, nombre, email, rol) VALUES
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador', 'admin@sistema.com', 'admin'),
+('operador', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Operador', 'operador@sistema.com', 'operador');

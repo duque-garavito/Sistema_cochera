@@ -46,6 +46,14 @@ nav {
     flex-wrap: wrap;
 }
 
+.user-info {
+    text-align: center;
+    margin-top: 15px;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 .nav-link {
     text-decoration: none;
     color: #34495e;

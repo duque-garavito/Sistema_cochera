@@ -1,6 +1,10 @@
 <?php
+session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+// Verificar login
+verificarLogin();
 
 $mensaje = '';
 $tipo_mensaje = '';
@@ -79,9 +83,14 @@ $vehiculos = obtenerTodosLosVehiculos();
             <h1>🚗 Gestión de Vehículos</h1>
             <nav>
                 <a href="index.php" class="nav-link">Registro</a>
+                <a href="dashboard.php" class="nav-link">Dashboard</a>
                 <a href="reportes.php" class="nav-link">Reportes</a>
                 <a href="vehiculos.php" class="nav-link active">Vehículos</a>
+                <a href="logout.php" class="nav-link">🚪 Salir</a>
             </nav>
+            <div class="user-info">
+                <span>👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo ucfirst($_SESSION['rol']); ?>)</span>
+            </div>
         </header>
 
         <main>

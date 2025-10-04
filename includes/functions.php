@@ -287,4 +287,126 @@ function obtenerSugerencias($termino) {
         throw new Exception("Error al obtener sugerencias: " . $e->getMessage());
     }
 }
+
+/**
+ * Función para verificar si el usuario está logueado
+ */
+function verificarLogin() {
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: login.php');
+        exit();
+    }
+}
+
+/**
+ * Función para obtener estadísticas de días más ocupados
+ */
+function obtenerDiasMasOcupados($limite = 7) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT DATE(fecha_hora_entrada) as fecha, COUNT(*) as total_movimientos
+                              FROM movimientos 
+                              WHERE fecha_hora_entrada >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                              GROUP BY DATE(fecha_hora_entrada)
+                              ORDER BY total_movimientos DESC
+                              LIMIT ?");
+        $stmt->execute([$limite]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener estadísticas de días: " . $e->getMessage());
+    }
+}
+
+/**
+ * Función para obtener estadísticas de horas pico
+ */
+function obtenerHorasPico($tipo = 'entrada') {
+    global $pdo;
+    try {
+        $campo = $tipo == 'entrada' ? 'fecha_hora_entrada' : 'fecha_hora_salida';
+        $stmt = $pdo->prepare("SELECT HOUR({$campo}) as hora, COUNT(*) as total
+                              FROM movimientos 
+                              WHERE {$campo} IS NOT NULL
+                              GROUP BY HOUR({$campo})
+                              ORDER BY hora");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener estadísticas de horas: " . $e->getMessage());
+    }
+}
+
+/**
+ * Función para obtener estadísticas de tipos de vehículos
+ */
+function obtenerEstadisticasTiposVehiculos() {
+    global $pdo;
+    try {
+        $stmt = $pdo->query("SELECT v.tipo_vehiculo, COUNT(*) as total, 
+                            SUM(CASE WHEN m.estado = 'Activo' THEN 1 ELSE 0 END) as activos,
+                            AVG(v.precio_por_dia) as precio_promedio
+                            FROM vehiculos v 
+                            LEFT JOIN movimientos m ON v.id = m.vehiculo_id
+                            GROUP BY v.tipo_vehiculo
+                            ORDER BY total DESC");
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener estadísticas de tipos: " . $e->getMessage());
+    }
+}
+
+/**
+ * Función para obtener ingresos por día
+ */
+function obtenerIngresosPorDia($dias = 7) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT DATE(fecha_hora_salida) as fecha, 
+                              SUM(precio_total) as total_ingresos,
+                              COUNT(*) as total_salidas
+                              FROM movimientos 
+                              WHERE fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                              AND precio_total > 0
+                              GROUP BY DATE(fecha_hora_salida)
+                              ORDER BY fecha DESC");
+        $stmt->execute([$dias]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener ingresos: " . $e->getMessage());
+    }
+}
+
+/**
+ * Función para obtener estadísticas generales del dashboard
+ */
+function obtenerEstadisticasGenerales() {
+    global $pdo;
+    try {
+        $stats = [];
+        
+        // Total de vehículos registrados
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM vehiculos");
+        $stats['total_vehiculos'] = $stmt->fetch()['total'];
+        
+        // Vehículos activos
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM movimientos WHERE estado = 'Activo'");
+        $stats['vehiculos_activos'] = $stmt->fetch()['total'];
+        
+        // Total de movimientos hoy
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM movimientos WHERE DATE(fecha_hora_entrada) = CURDATE()");
+        $stats['movimientos_hoy'] = $stmt->fetch()['total'];
+        
+        // Ingresos del día
+        $stmt = $pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE DATE(fecha_hora_salida) = CURDATE()");
+        $stats['ingresos_hoy'] = $stmt->fetch()['total'];
+        
+        // Ingresos del mes
+        $stmt = $pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE MONTH(fecha_hora_salida) = MONTH(CURDATE()) AND YEAR(fecha_hora_salida) = YEAR(CURDATE())");
+        $stats['ingresos_mes'] = $stmt->fetch()['total'];
+        
+        return $stats;
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener estadísticas generales: " . $e->getMessage());
+    }
+}
 ?>
