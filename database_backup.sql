@@ -67,10 +67,7 @@ CREATE TABLE IF NOT EXISTS administradores (
     ultimo_acceso TIMESTAMP NULL
 );
 
--- Insertar administrador único (usuario: admin, contraseña: user123)
+-- Insertar administrador por defecto (usuario: admin, contraseña: admin123)
 INSERT INTO administradores (usuario, password, nombre, email, rol) VALUES
-('admin', '$2y$10$N.IBo2zvcyHkVjYI3UqHVOohIQSVUeIU.bHy9rQqsVtoMwgNqWFMS', 'Administrador', 'admin@sistema.com', 'admin');
-
--- Agregar campos para recuperación de contraseña
-ALTER TABLE administradores ADD COLUMN reset_token VARCHAR(255) NULL;
-ALTER TABLE administradores ADD COLUMN reset_token_expires TIMESTAMP NULL;
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador', 'admin@sistema.com', 'admin'),
+('operador', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Operador', 'operador@sistema.com', 'operador');

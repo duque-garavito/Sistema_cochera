@@ -124,7 +124,8 @@ $vehiculos_activos = $stmt->fetchAll();
                 <a href="logout.php" class="nav-link">🚪 Salir</a>
             </nav>
             <div class="user-info">
-                <span>👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo ucfirst($_SESSION['rol']); ?>)</span>
+                <span> <?php echo htmlspecialchars($_SESSION['nombre']); ?>
+                (<?php echo ucfirst($_SESSION['rol']); ?>)</span>
             </div>
         </header>
 

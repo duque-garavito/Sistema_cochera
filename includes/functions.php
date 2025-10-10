@@ -4,7 +4,8 @@ require_once 'config/database.php';
 /**
  * Función para registrar un nuevo usuario
  */
-function registrarUsuario($dni, $nombre, $apellido, $telefono = null, $email = null) {
+function registrarUsuario($dni, $nombre, $apellido, $telefono = null, $email = null)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("INSERT INTO usuarios (dni, nombre, apellido, telefono, email) VALUES (?, ?, ?, ?, ?)");
@@ -18,7 +19,8 @@ function registrarUsuario($dni, $nombre, $apellido, $telefono = null, $email = n
 /**
  * Función para registrar un nuevo vehículo
  */
-function registrarVehiculo($placa, $tipo_vehiculo, $marca = null, $modelo = null, $color = null, $usuario_id) {
+function registrarVehiculo($placa, $tipo_vehiculo, $marca = null, $modelo = null, $color = null, $usuario_id)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("INSERT INTO vehiculos (placa, tipo_vehiculo, marca, modelo, color, usuario_id) VALUES (?, ?, ?, ?, ?, ?)");
@@ -32,7 +34,8 @@ function registrarVehiculo($placa, $tipo_vehiculo, $marca = null, $modelo = null
 /**
  * Función para buscar usuario por DNI
  */
-function buscarUsuarioPorDNI($dni) {
+function buscarUsuarioPorDNI($dni)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE dni = ?");
@@ -46,7 +49,8 @@ function buscarUsuarioPorDNI($dni) {
 /**
  * Función para buscar vehículo por placa
  */
-function buscarVehiculoPorPlaca($placa) {
+function buscarVehiculoPorPlaca($placa)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT v.*, u.nombre, u.apellido FROM vehiculos v 
@@ -62,7 +66,8 @@ function buscarVehiculoPorPlaca($placa) {
 /**
  * Función para obtener todos los vehículos registrados
  */
-function obtenerTodosLosVehiculos() {
+function obtenerTodosLosVehiculos()
+{
     global $pdo;
     try {
         $stmt = $pdo->query("SELECT v.*, u.nombre, u.apellido, u.dni 
@@ -78,7 +83,8 @@ function obtenerTodosLosVehiculos() {
 /**
  * Función para obtener movimientos por rango de fechas
  */
-function obtenerMovimientosPorFecha($fecha_inicio, $fecha_fin) {
+function obtenerMovimientosPorFecha($fecha_inicio, $fecha_fin)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT m.*, v.placa, v.tipo_vehiculo, v.precio_por_dia, u.nombre, u.apellido 
@@ -97,12 +103,13 @@ function obtenerMovimientosPorFecha($fecha_inicio, $fecha_fin) {
 /**
  * Función para obtener estadísticas del día
  */
-function obtenerEstadisticasDia($fecha = null) {
+function obtenerEstadisticasDia($fecha = null)
+{
     global $pdo;
     if (!$fecha) {
         $fecha = date('Y-m-d');
     }
-    
+
     try {
         $stmt = $pdo->prepare("SELECT 
                                 COUNT(*) as total_movimientos,
@@ -120,10 +127,11 @@ function obtenerEstadisticasDia($fecha = null) {
 /**
  * Función para validar formato de placa
  */
-function validarPlaca($placa) {
+function validarPlaca($placa)
+{
     // Remover espacios y convertir a mayúsculas
     $placa = strtoupper(str_replace(' ', '', $placa));
-    
+
     // Patrones más flexibles para diferentes formatos de placas:
     // - ABC123 (3 letras + 3 números)
     // - ABC-123 (3 letras + guión + 3 números)
@@ -140,20 +148,21 @@ function validarPlaca($placa) {
         '/^[A-Z0-9]{7}$/',              // Cualquier combinación de 7 caracteres
         '/^[A-Z0-9]{8}$/'               // Cualquier combinación de 8 caracteres
     ];
-    
+
     foreach ($patrones as $patron) {
         if (preg_match($patron, $placa)) {
             return true;
         }
     }
-    
+
     return false;
 }
 
 /**
  * Función para validar formato de DNI
  */
-function validarDNI($dni) {
+function validarDNI($dni)
+{
     // DNI peruano: 8 dígitos
     return preg_match('/^[0-9]{8}$/', $dni);
 }
@@ -161,7 +170,8 @@ function validarDNI($dni) {
 /**
  * Función para formatear fecha y hora
  */
-function formatearFechaHora($fecha) {
+function formatearFechaHora($fecha)
+{
     if (!$fecha) return '-';
     return date('d/m/Y H:i:s', strtotime($fecha));
 }
@@ -169,14 +179,15 @@ function formatearFechaHora($fecha) {
 /**
  * Función para calcular tiempo transcurrido
  */
-function calcularTiempoTranscurrido($fecha_inicio, $fecha_fin = null) {
+function calcularTiempoTranscurrido($fecha_inicio, $fecha_fin = null)
+{
     if (!$fecha_inicio) return '-';
-    
+
     $inicio = new DateTime($fecha_inicio);
     $fin = $fecha_fin ? new DateTime($fecha_fin) : new DateTime();
-    
+
     $intervalo = $inicio->diff($fin);
-    
+
     $tiempo = '';
     if ($intervalo->h > 0) {
         $tiempo .= $intervalo->h . 'h ';
@@ -187,44 +198,46 @@ function calcularTiempoTranscurrido($fecha_inicio, $fecha_fin = null) {
     if ($intervalo->s > 0) {
         $tiempo .= $intervalo->s . 's';
     }
-    
+
     return trim($tiempo) ?: '0s';
 }
 
 /**
  * Función para obtener precio por tipo de vehículo (POR DÍA)
  */
-function obtenerPrecioPorTipo($tipo_vehiculo) {
+function obtenerPrecioPorTipo($tipo_vehiculo)
+{
     $precios = [
         'Auto' => 10.00,
         'Moto' => 4.00,
         'Camioneta' => 12.00,
         'Otro' => 8.00
     ];
-    
+
     return $precios[$tipo_vehiculo] ?? 8.00;
 }
 
 /**
  * Función para calcular precio total basado en días (tarifa diaria)
  */
-function calcularPrecioTotal($fecha_inicio, $fecha_fin, $precio_por_dia) {
+function calcularPrecioTotal($fecha_inicio, $fecha_fin, $precio_por_dia)
+{
     if (!$fecha_inicio) return 0;
-    
+
     $inicio = new DateTime($fecha_inicio);
     $fin = $fecha_fin ? new DateTime($fecha_fin) : new DateTime();
-    
+
     // Calcular diferencia en días
     $diferencia = $fin->diff($inicio);
-    
+
     // Si es el mismo día, cobrar 1 día
     if ($inicio->format('Y-m-d') === $fin->format('Y-m-d')) {
         return $precio_por_dia;
     }
-    
+
     // Calcular días completos + 1 (porque se cobra por día completo)
     $dias_completos = $diferencia->days;
-    
+
     // Si pasó al menos un día completo, cobrar días completos + 1
     // Si no pasó un día completo pero cambió de día, cobrar 2 días
     if ($diferencia->days >= 1) {
@@ -233,14 +246,15 @@ function calcularPrecioTotal($fecha_inicio, $fecha_fin, $precio_por_dia) {
         // Si cambió de día pero no pasó 24 horas completas, cobrar 2 días
         $dias_a_cobrar = 2;
     }
-    
+
     return $dias_a_cobrar * $precio_por_dia;
 }
 
 /**
  * Función para buscar vehículo por placa o DNI
  */
-function buscarVehiculoPorPlacaODNI($termino) {
+function buscarVehiculoPorPlacaODNI($termino)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT v.*, u.nombre, u.apellido, u.dni 
@@ -258,7 +272,8 @@ function buscarVehiculoPorPlacaODNI($termino) {
 /**
  * Función para verificar si un vehículo tiene movimiento activo
  */
-function verificarMovimientoActivo($vehiculo_id) {
+function verificarMovimientoActivo($vehiculo_id)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT * FROM movimientos WHERE vehiculo_id = ? AND estado = 'Activo'");
@@ -272,7 +287,8 @@ function verificarMovimientoActivo($vehiculo_id) {
 /**
  * Función para obtener sugerencias de búsqueda
  */
-function obtenerSugerencias($termino) {
+function obtenerSugerencias($termino)
+{
     global $pdo;
     try {
         $stmt = $pdo->prepare("SELECT DISTINCT v.placa, u.dni, u.nombre, u.apellido, v.tipo_vehiculo
@@ -291,7 +307,8 @@ function obtenerSugerencias($termino) {
 /**
  * Función para verificar si el usuario está logueado
  */
-function verificarLogin() {
+function verificarLogin()
+{
     if (!isset($_SESSION['usuario_id'])) {
         header('Location: login.php');
         exit();
@@ -301,16 +318,21 @@ function verificarLogin() {
 /**
  * Función para obtener estadísticas de días más ocupados
  */
-function obtenerDiasMasOcupados($limite = 7) {
+function obtenerDiasMasOcupados($limite = 7)
+{
     global $pdo;
     try {
+        // Validar que el límite sea un número entero positivo
+        $limite = (int)$limite;
+        if ($limite <= 0) $limite = 7;
+
         $stmt = $pdo->prepare("SELECT DATE(fecha_hora_entrada) as fecha, COUNT(*) as total_movimientos
                               FROM movimientos 
                               WHERE fecha_hora_entrada >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
                               GROUP BY DATE(fecha_hora_entrada)
                               ORDER BY total_movimientos DESC
-                              LIMIT ?");
-        $stmt->execute([$limite]);
+                              LIMIT " . $limite);
+        $stmt->execute();
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         throw new Exception("Error al obtener estadísticas de días: " . $e->getMessage());
@@ -320,10 +342,14 @@ function obtenerDiasMasOcupados($limite = 7) {
 /**
  * Función para obtener estadísticas de horas pico
  */
-function obtenerHorasPico($tipo = 'entrada') {
+function obtenerHorasPico($tipo = 'entrada')
+{
     global $pdo;
     try {
+        // Validar el tipo de movimiento
+        $tipo = in_array($tipo, ['entrada', 'salida']) ? $tipo : 'entrada';
         $campo = $tipo == 'entrada' ? 'fecha_hora_entrada' : 'fecha_hora_salida';
+
         $stmt = $pdo->prepare("SELECT HOUR({$campo}) as hora, COUNT(*) as total
                               FROM movimientos 
                               WHERE {$campo} IS NOT NULL
@@ -339,7 +365,8 @@ function obtenerHorasPico($tipo = 'entrada') {
 /**
  * Función para obtener estadísticas de tipos de vehículos
  */
-function obtenerEstadisticasTiposVehiculos() {
+function obtenerEstadisticasTiposVehiculos()
+{
     global $pdo;
     try {
         $stmt = $pdo->query("SELECT v.tipo_vehiculo, COUNT(*) as total, 
@@ -358,18 +385,23 @@ function obtenerEstadisticasTiposVehiculos() {
 /**
  * Función para obtener ingresos por día
  */
-function obtenerIngresosPorDia($dias = 7) {
+function obtenerIngresosPorDia($dias = 7)
+{
     global $pdo;
     try {
+        // Validar que los días sean un número entero positivo
+        $dias = (int)$dias;
+        if ($dias <= 0) $dias = 7;
+
         $stmt = $pdo->prepare("SELECT DATE(fecha_hora_salida) as fecha, 
                               SUM(precio_total) as total_ingresos,
                               COUNT(*) as total_salidas
                               FROM movimientos 
-                              WHERE fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                              WHERE fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL " . $dias . " DAY)
                               AND precio_total > 0
                               GROUP BY DATE(fecha_hora_salida)
                               ORDER BY fecha DESC");
-        $stmt->execute([$dias]);
+        $stmt->execute();
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         throw new Exception("Error al obtener ingresos: " . $e->getMessage());
@@ -377,36 +409,94 @@ function obtenerIngresosPorDia($dias = 7) {
 }
 
 /**
+ * Función para obtener ingresos por tipo de vehículo
+ */
+function obtenerIngresosPorTipoVehiculo($dias = 7)
+{
+    global $pdo;
+    try {
+        // Validar que los días sean un número entero positivo
+        $dias = (int)$dias;
+        if ($dias <= 0) $dias = 7;
+
+        $stmt = $pdo->prepare("SELECT 
+                              v.tipo_vehiculo,
+                              DATE(m.fecha_hora_salida) as fecha,
+                              SUM(m.precio_total) as total_ingresos,
+                              COUNT(*) as total_salidas
+                              FROM movimientos m
+                              JOIN vehiculos v ON m.vehiculo_id = v.id
+                              WHERE m.fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL " . $dias . " DAY)
+                              AND m.precio_total > 0
+                              GROUP BY v.tipo_vehiculo, DATE(m.fecha_hora_salida)
+                              ORDER BY fecha DESC, total_ingresos DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener ingresos por tipo de vehículo: " . $e->getMessage());
+    }
+}
+
+/**
+ * Función para obtener resumen de ingresos por tipo de vehículo
+ */
+function obtenerResumenIngresosPorTipo($dias = 7)
+{
+    global $pdo;
+    try {
+        // Validar que los días sean un número entero positivo
+        $dias = (int)$dias;
+        if ($dias <= 0) $dias = 7;
+
+        $stmt = $pdo->prepare("SELECT 
+                              v.tipo_vehiculo,
+                              SUM(m.precio_total) as total_ingresos,
+                              COUNT(*) as total_salidas,
+                              AVG(m.precio_total) as promedio_ingreso
+                              FROM movimientos m
+                              JOIN vehiculos v ON m.vehiculo_id = v.id
+                              WHERE m.fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL " . $dias . " DAY)
+                              AND m.precio_total > 0
+                              GROUP BY v.tipo_vehiculo
+                              ORDER BY total_ingresos DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        throw new Exception("Error al obtener resumen de ingresos por tipo: " . $e->getMessage());
+    }
+}
+
+/**
  * Función para obtener estadísticas generales del dashboard
  */
-function obtenerEstadisticasGenerales() {
+function obtenerEstadisticasGenerales()
+{
     global $pdo;
     try {
         $stats = [];
-        
+
         // Total de vehículos registrados
         $stmt = $pdo->query("SELECT COUNT(*) as total FROM vehiculos");
         $stats['total_vehiculos'] = $stmt->fetch()['total'];
-        
+
         // Vehículos activos
         $stmt = $pdo->query("SELECT COUNT(*) as total FROM movimientos WHERE estado = 'Activo'");
         $stats['vehiculos_activos'] = $stmt->fetch()['total'];
-        
+
         // Total de movimientos hoy
         $stmt = $pdo->query("SELECT COUNT(*) as total FROM movimientos WHERE DATE(fecha_hora_entrada) = CURDATE()");
         $stats['movimientos_hoy'] = $stmt->fetch()['total'];
-        
+
         // Ingresos del día
         $stmt = $pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE DATE(fecha_hora_salida) = CURDATE()");
         $stats['ingresos_hoy'] = $stmt->fetch()['total'];
-        
+
         // Ingresos del mes
         $stmt = $pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE MONTH(fecha_hora_salida) = MONTH(CURDATE()) AND YEAR(fecha_hora_salida) = YEAR(CURDATE())");
         $stats['ingresos_mes'] = $stmt->fetch()['total'];
-        
+
         return $stats;
     } catch (PDOException $e) {
         throw new Exception("Error al obtener estadísticas generales: " . $e->getMessage());
     }
 }
-?>

@@ -37,12 +37,17 @@ Sistema web completo para el control de entrada y salida de vehículos en una co
    - Editar el archivo `config/database.php` si es necesario
    - Verificar credenciales de MySQL (por defecto: usuario 'root', sin contraseña)
 
-4. **Acceder al Sistema**
+4. **Configurar el Sistema**
+   - Ejecutar el instalador: `http://localhost/Sistema_cochera/instalar.php`
+   - Esto configurará automáticamente la contraseña correcta
+
+5. **Acceder al Sistema**
    - Abrir navegador web
    - Ir a: `http://localhost/Sistema_cochera/login.php`
-   - Usar las credenciales de prueba:
-     - **Admin**: usuario: `admin`, contraseña: `admin123`
-     - **Operador**: usuario: `operador`, contraseña: `admin123`
+   - Usar las credenciales:
+     - **Usuario**: `admin`
+     - **Contraseña**: `user123`
+     - **Email**: `admin@sistema.com`
 
 ## 📋 Estructura del Proyecto
 
@@ -64,6 +69,9 @@ Sistema_cochera/
 ├── dashboard.php          # Dashboard con gráficos
 ├── vehiculos.php          # Gestión de vehículos
 ├── reportes.php           # Reportes y consultas
+├── recuperar_password.php # Recuperación de contraseña
+├── cambiar_password.php   # Cambio de contraseña
+├── instalar.php           # Instalador del sistema
 ├── database.sql           # Estructura de base de datos
 └── README.md             # Este archivo
 ```
@@ -82,7 +90,7 @@ Sistema_cochera/
    - id, vehiculo_id, usuario_id, tipo_movimiento, fecha_hora_entrada, fecha_hora_salida, observaciones, estado, precio_total, tiempo_estacionado
 
 4. **administradores**: Usuarios del sistema
-   - id, usuario, password, nombre, email, rol, activo, fecha_registro, ultimo_acceso
+   - id, usuario, password, nombre, email, rol, activo, fecha_registro, ultimo_acceso, reset_token, reset_token_expires
 
 ## 🎯 Uso del Sistema
 
@@ -107,6 +115,11 @@ Sistema_cochera/
 - Ir a la pestaña "Reportes"
 - Filtrar por fechas o ver todos los registros
 - Exportar datos a CSV o imprimir reportes
+
+### 5. Recuperación de Contraseña
+- En el login, hacer clic en "¿Olvidaste tu contraseña?"
+- Ingresar el email del administrador: admin@sistema.com
+- Seguir el enlace recibido para cambiar la contraseña
 
 ## 🔧 Funcionalidades Técnicas
 
