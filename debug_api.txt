@@ -1,0 +1,210 @@
+[2025-12-02 18:02:11] Request received for DNI lookup
+[2025-12-02 18:02:11] Processing DNI: 41878131
+[2025-12-02 18:02:12] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 41878131
+            [nombre_completo] => DUQUE GARCIA, JOSE CARLOS
+            [nombres] => JOSE CARLOS
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARCIA
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.054523944854736
+)
+
+[2025-12-02 18:02:12] Final JSON Response: {"success":true,"data":{"dni":"41878131","nombre":"JOSE CARLOS","apellido":"DUQUE GARCIA"}}
+[2025-12-02 18:03:36] Request received for DNI lookup
+[2025-12-02 18:03:36] Processing DNI: 41878131
+[2025-12-02 18:03:39] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 41878131
+            [nombre_completo] => DUQUE GARCIA, JOSE CARLOS
+            [nombres] => JOSE CARLOS
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARCIA
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.060412883758545
+)
+
+[2025-12-02 18:03:39] Final JSON Response: {"success":true,"data":{"dni":"41878131","nombre":"JOSE CARLOS","apellido":"DUQUE GARCIA"}}
+[2025-12-02 19:23:31] Request received for DNI lookup
+[2025-12-02 19:23:31] Processing DNI: 41878131
+[2025-12-02 19:23:32] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 41878131
+            [nombre_completo] => DUQUE GARCIA, JOSE CARLOS
+            [nombres] => JOSE CARLOS
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARCIA
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.05576491355896
+)
+
+[2025-12-02 19:23:32] Final JSON Response: {"success":true,"data":{"dni":"41878131","nombre":"JOSE CARLOS","apellido":"DUQUE GARCIA"}}
+[2025-12-02 19:24:04] Request received for DNI lookup
+[2025-12-02 19:24:04] Processing DNI: 72768590
+[2025-12-02 19:24:06] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 72768590
+            [nombre_completo] => BERRU HERNANDEZ, JEREMY XAMIR
+            [nombres] => JEREMY XAMIR
+            [apellido_paterno] => BERRU
+            [apellido_materno] => HERNANDEZ
+            [codigo_verificacion] => 7
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.44941091537476
+)
+
+[2025-12-02 19:24:06] Final JSON Response: {"success":true,"data":{"dni":"72768590","nombre":"JEREMY XAMIR","apellido":"BERRU HERNANDEZ"}}
+[2025-12-02 19:24:27] Request received for DNI lookup
+[2025-12-02 19:24:27] Processing DNI: 72768590
+[2025-12-02 19:24:30] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 72768590
+            [nombre_completo] => BERRU HERNANDEZ, JEREMY XAMIR
+            [nombres] => JEREMY XAMIR
+            [apellido_paterno] => BERRU
+            [apellido_materno] => HERNANDEZ
+            [codigo_verificacion] => 7
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 2.1520998477936
+)
+
+[2025-12-02 19:24:30] Final JSON Response: {"success":true,"data":{"dni":"72768590","nombre":"JEREMY XAMIR","apellido":"BERRU HERNANDEZ"}}
+[2025-12-02 19:59:43] Request received for DNI lookup
+[2025-12-02 19:59:43] Processing DNI: 75186384
+[2025-12-02 19:59:44] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 75186384
+            [nombre_completo] => DUQUE GARAVITO, CRISTHIAN DANIEL
+            [nombres] => CRISTHIAN DANIEL
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARAVITO
+            [codigo_verificacion] => 1
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.060551881790161
+)
+
+[2025-12-02 19:59:44] Final JSON Response: {"success":true,"data":{"dni":"75186384","nombre":"CRISTHIAN DANIEL","apellido":"DUQUE GARAVITO"}}
+[2025-12-02 19:59:44] Request received for DNI lookup
+[2025-12-02 19:59:44] Processing DNI: 75186384
+[2025-12-02 19:59:45] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 75186384
+            [nombre_completo] => DUQUE GARAVITO, CRISTHIAN DANIEL
+            [nombres] => CRISTHIAN DANIEL
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARAVITO
+            [codigo_verificacion] => 1
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.060258865356445
+)
+
+[2025-12-02 19:59:45] Final JSON Response: {"success":true,"data":{"dni":"75186384","nombre":"CRISTHIAN DANIEL","apellido":"DUQUE GARAVITO"}}

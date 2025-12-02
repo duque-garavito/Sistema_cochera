@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Permitir acceso directo a archivos CSS, JS e imágenes
+RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg)$ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Redirigir todas las demás peticiones a public/index.php solo si el archivo no existe
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]

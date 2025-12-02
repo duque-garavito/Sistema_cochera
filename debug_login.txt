@@ -1,0 +1,12 @@
+[2025-12-02 14:36:54] Login attempt for user: admin
+[2025-12-02 14:36:54] Authentication successful for user: admin
+[2025-12-02 14:36:54] Redirecting to: /public/index.php/dashboard
+[2025-12-02 19:24:30] Login page accessed via GET
+[2025-12-02 19:24:37] Login attempt for user: admin
+[2025-12-02 19:24:37] Authentication successful for user: admin
+[2025-12-02 19:24:37] Redirecting to: /public/index.php/dashboard
+[2025-12-02 19:35:21] Login page accessed via GET
+[2025-12-02 19:35:24] Login page accessed via GET
+[2025-12-02 19:35:29] Login attempt for user: admin
+[2025-12-02 19:35:29] Authentication successful for user: admin
+[2025-12-02 19:35:29] Redirecting to: /public/index.php/dashboard
