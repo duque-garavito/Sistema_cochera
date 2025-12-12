@@ -55,31 +55,52 @@ Sistema web completo para el control de entrada y salida de vehículos en una co
      - **Contraseña**: `user123`
      - **Email**: `admin@sistema.com`
 
-## 📋 Estructura del Proyecto
+## 📋 Estructura del Proyecto (Arquitectura MVC)
 
 ```
 Sistema_cochera/
+├── app/
+│   ├── controllers/
+│   │   ├── AuthController.php      # Lógica para login, logout, recuperación de contraseña
+│   │   ├── DashboardController.php # Lógica del dashboard
+│   │   ├── VehicleController.php   # Lógica para gestión de vehículos
+│   │   ├── MovementController.php  # Lógica para registro de entrada/salida
+│   │   ├── ReportController.php    # Lógica para reportes
+│   │   └── ApiController.php       # Lógica para endpoints AJAX (e.g., buscar.php)
+│   ├── models/
+│   │   ├── User.php                # Modelo para usuarios y administradores
+│   │   ├── Vehicle.php             # Modelo para vehículos
+│   │   └── Movement.php            # Modelo para movimientos
+│   ├── views/
+│   │   ├── auth/
+│   │   │   ├── login.php
+│   │   │   ├── recuperar_password.php
+│   │   │   └── cambiar_password.php
+│   │   ├── dashboard/
+│   │   │   └── index.php           # Vista del dashboard
+│   │   ├── vehicles/
+│   │   │   └── index.php           # Vista de gestión de vehículos
+│   │   ├── movements/
+│   │   │   └── index.php           # Vista principal para entrada/salida
+│   │   ├── reports/
+│   │   │   └── index.php           # Vista de reportes
+│   │   └── layouts/                # Plantillas comunes (header, footer, etc.)
+│   │       └── main.php
+│   └── helpers/                    # Funciones auxiliares (antes includes/functions.php)
+│       └── functions.php
 ├── config/
-│   └── database.php          # Configuración de base de datos
-├── css/
-│   └── style.css            # Estilos CSS
-├── includes/
-│   └── functions.php        # Funciones PHP auxiliares
-├── js/
-│   └── script.js           # JavaScript
-├── ajax/
-│   └── buscar.php          # API para búsquedas AJAX
-├── index.php               # Página principal (registro)
-├── login.php              # Sistema de autenticación
-├── logout.php             # Cerrar sesión
-├── dashboard.php          # Dashboard con gráficos
-├── vehiculos.php          # Gestión de vehículos
-├── reportes.php           # Reportes y consultas
-├── recuperar_password.php # Recuperación de contraseña
-├── cambiar_password.php   # Cambio de contraseña
-├── instalar.php           # Instalador del sistema
-├── database.sql           # Estructura de base de datos
-└── README.md             # Este archivo
+│   └── database.php                # Configuración de base de datos
+├── public/
+│   ├── css/
+│   │   └── style.css               # Estilos CSS
+│   ├── js/
+│   │   └── script.js               # JavaScript
+│   └── index.php                   # Punto de entrada principal (Front Controller)
+├── database/
+│   └── database.sql                # Estructura de la base de datos
+├── tools/
+│   └── instalar.php                # Script de instalación
+└── README.md                       # Este archivo
 ```
 
 ## 🗄️ Base de Datos

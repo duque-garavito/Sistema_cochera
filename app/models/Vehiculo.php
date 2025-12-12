@@ -133,4 +133,16 @@ class Vehiculo
 
         return false;
     }
+    /**
+     * Obtener conteo de vehículos por tipo
+     */
+    public function obtenerConteoPorTipo()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT tipo_vehiculo, COUNT(*) as total FROM vehiculos GROUP BY tipo_vehiculo");
+            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        } catch (PDOException $e) {
+            throw new Exception("Error al obtener conteo por tipo: " . $e->getMessage());
+        }
+    }
 }

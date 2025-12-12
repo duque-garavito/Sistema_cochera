@@ -448,6 +448,17 @@ function inicializarBusquedaRapida() {
         limpiarFormulario();
       }
     });
+
+    // Buscar exacto al salir del campo (blur)
+    placa.addEventListener("blur", function () {
+      const termino = this.value.trim();
+      if (termino.length >= 3) {
+        // Pequeño retraso para permitir que el click en sugerencia ocurra primero
+        setTimeout(() => {
+            buscarVehiculoExacto(termino);
+        }, 200);
+      }
+    });
   }
 
   // Autocompletado para campo DNI
@@ -508,6 +519,39 @@ function buscarVehiculos(termino, tipoCampo) {
     .catch((error) => {
       console.error("Error en búsqueda:", error);
       ocultarSugerencias();
+    });
+}
+
+/**
+ * Buscar vehículo exacto y autocompletar
+ */
+function buscarVehiculoExacto(placa) {
+  const baseUrl = (typeof BASE_URL !== 'undefined') ? BASE_URL : '';
+  fetch(
+    `${baseUrl}/api/buscar?termino=${encodeURIComponent(placa)}&tipo=placa`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data.success && data.data && data.data.length > 0) {
+        // Buscar coincidencia exacta
+        const exacto = data.data.find(v => v.placa === placa);
+        
+        if (exacto) {
+            const estado = exacto.tiene_movimiento_activo ? "salida" : "entrada";
+            seleccionarVehiculo(
+                exacto.placa, 
+                exacto.dni, 
+                exacto.nombre, 
+                exacto.tipo_vehiculo, 
+                exacto.precio_dia, 
+                exacto.tipo_movimiento_sugerido, 
+                estado
+            );
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Error en búsqueda exacta:", error);
     });
 }
 

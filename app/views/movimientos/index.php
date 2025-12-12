@@ -1,13 +1,13 @@
-<?php 
+<?php
 $title = "Registro de Movimientos";
 $current_page = 'movimientos';
-require __DIR__ . '/../layouts/header.php'; 
+require __DIR__ . '/../layouts/header.php';
 ?>
 
 <?php if (!empty($mensaje)): ?>
-    <div class="alert alert-<?php echo $tipo_mensaje; ?>">
-        <?php echo $mensaje; ?>
-    </div>
+<div class="alert alert-<?php echo $tipo_mensaje; ?>">
+    <?php echo $mensaje; ?>
+</div>
 <?php endif; ?>
 
 <div class="grid-container">
@@ -18,7 +18,8 @@ require __DIR__ . '/../layouts/header.php';
             <div class="form-row">
                 <div class="form-group">
                     <label for="placa">Placa del Vehículo:</label>
-                    <input type="text" id="placa" name="placa" required placeholder="Ej: ABC123, AB-1234" maxlength="10">
+                    <input type="text" id="placa" name="placa" required placeholder="Ej: ABC123, AB-1234"
+                        maxlength="10">
                 </div>
                 <div class="form-group">
                     <label for="dni">DNI del Conductor:</label>
@@ -58,7 +59,8 @@ require __DIR__ . '/../layouts/header.php';
 
             <div class="form-group">
                 <label for="observaciones">Observaciones:</label>
-                <textarea id="observaciones" name="observaciones" placeholder="Comentarios adicionales (opcional)"></textarea>
+                <textarea id="observaciones" name="observaciones"
+                    placeholder="Comentarios adicionales (opcional)"></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">📋 Registrar Movimiento</button>
@@ -70,24 +72,25 @@ require __DIR__ . '/../layouts/header.php';
         <h2>🚗 Vehículos Activos (En Cochera)</h2>
         <div class="activos-container">
             <?php if (empty($vehiculos_activos)): ?>
-                <p class="no-data">No hay vehículos activos en la cochera</p>
+            <p class="no-data">No hay vehículos activos en la cochera</p>
             <?php else: ?>
-                <?php foreach ($vehiculos_activos as $activo): ?>
-                    <div class="activo-item">
-                        <div class="activo-header">
-                            <span class="placa"><?php echo htmlspecialchars($activo['placa']); ?></span>
-                            <span class="tipo"><?php echo htmlspecialchars($activo['tipo_vehiculo']); ?></span>
-                        </div>
-                        <div class="activo-info">
-                            <p><strong>Conductor:</strong> <?php echo htmlspecialchars($activo['nombre'] . ' ' . $activo['apellido']); ?></p>
-                            <p><strong>Entrada:</strong> <?php echo date('d/m/Y H:i', strtotime($activo['fecha_hora_entrada'])); ?></p>
-                            <p><strong>Precio/Día:</strong> S/ <?php echo number_format($activo['precio_por_dia'], 2); ?></p>
-                            <?php if (!empty($activo['observaciones'])): ?>
-                                <p><strong>Obs:</strong> <?php echo htmlspecialchars($activo['observaciones']); ?></p>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+            <?php foreach ($vehiculos_activos as $activo): ?>
+            <div class="activo-item">
+                <div class="activo-info">
+                    <p><strong>Conductor:</strong>
+                        <?php echo htmlspecialchars($activo['nombre'] . ' ' . $activo['apellido']); ?></p>
+                    <p class="placa"><strong>Placa:</strong> <?php echo htmlspecialchars($activo['placa']); ?></p>
+                    <p class="tipo"><strong>Tipo de
+                            vehiculo:</strong><?php echo htmlspecialchars($activo['tipo_vehiculo']); ?></p>
+                    <p><strong>Entrada:</strong>
+                        <?php echo date('d/m/Y H:i', strtotime($activo['fecha_hora_entrada'])); ?></p>
+                    <p><strong>Precio/Día:</strong> S/ <?php echo number_format($activo['precio_por_dia'], 2); ?></p>
+                    <?php if (!empty($activo['observaciones'])): ?>
+                    <p><strong>Obs:</strong> <?php echo htmlspecialchars($activo['observaciones']); ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </section>

@@ -16,13 +16,33 @@ class DashboardController
 
     public function index()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->verificarSesion();
 
-        // Obtener estadísticas
-        $stats = $this->movimientoModel->obtenerEstadisticasGenerales();
-        $vehiculos = $this->vehiculoModel->obtenerTodos();
-        $stats['total_vehiculos'] = count($vehiculos);
+        try {
+            // Obtener estadísticas
+            $stats = $this->movimientoModel->obtenerEstadisticasGenerales();
+            $vehiculos = $this->vehiculoModel->obtenerTodos();
+            $stats['total_vehiculos'] = count($vehiculos);
+
+            // Datos para gráficos
+            $vehiculos_por_tipo = $this->vehiculoModel->obtenerConteoPorTipo();
+            $ingresos_semanales = $this->movimientoModel->obtenerIngresosUltimosDias(7);
+        } catch (Exception $e) {
+            // En caso de error, inicializar variables vacías para evitar errores en la vista
+            $stats = [
+                'total_vehiculos' => 0,
+                'movimientos_activos' => 0,
+                'movimientos_hoy' => 0,
+                'ingresos_hoy' => 0,
+                'ingresos_mes' => 0
+            ];
+            $vehiculos_por_tipo = [];
+            $ingresos_semanales = [];
+            $error = "Error al cargar datos del dashboard: " . $e->getMessage();
+        }
 
         require __DIR__ . '/../views/dashboard/index.php';
     }

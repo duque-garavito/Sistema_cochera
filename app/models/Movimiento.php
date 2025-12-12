@@ -52,7 +52,7 @@ class Movimiento
     public function obtenerActivos()
     {
         try {
-            $stmt = $this->pdo->query("SELECT m.*, v.placa, v.tipo_vehiculo, u.nombre, u.apellido 
+            $stmt = $this->pdo->query("SELECT m.*, v.placa, v.tipo_vehiculo, v.precio_por_dia, u.nombre, u.apellido 
                                 FROM movimientos m 
                                 JOIN vehiculos v ON m.vehiculo_id = v.id 
                                 JOIN usuarios u ON m.usuario_id = u.id 
@@ -211,5 +211,23 @@ class Movimiento
         }
 
         return trim($tiempo) ?: '0s';
+    }
+    /**
+     * Obtener ingresos de los últimos días
+     */
+    public function obtenerIngresosUltimosDias($dias = 7)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT DATE(fecha_hora_salida) as fecha, SUM(precio_total) as total 
+                                   FROM movimientos 
+                                   WHERE fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY) 
+                                   AND estado = 'Completado'
+                                   GROUP BY DATE(fecha_hora_salida)
+                                   ORDER BY fecha ASC");
+            $stmt->execute([$dias]);
+            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        } catch (PDOException $e) {
+            throw new Exception("Error al obtener ingresos: " . $e->getMessage());
+        }
     }
 }

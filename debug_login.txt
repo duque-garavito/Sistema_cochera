@@ -10,3 +10,24 @@
 [2025-12-02 19:35:29] Login attempt for user: admin
 [2025-12-02 19:35:29] Authentication successful for user: admin
 [2025-12-02 19:35:29] Redirecting to: /public/index.php/dashboard
+[2025-12-02 20:20:40] Login page accessed via GET
+[2025-12-02 20:20:44] Login attempt for user: admin
+[2025-12-02 20:20:44] Authentication successful for user: admin
+[2025-12-02 20:20:44] Redirecting to: /public/index.php/dashboard
+[2025-12-03 22:13:31] Login page accessed via GET
+[2025-12-03 22:13:37] Login attempt for user: admin
+[2025-12-03 22:13:37] Authentication successful for user: admin
+[2025-12-03 22:13:37] Redirecting to: /public/index.php/dashboard
+[2025-12-06 03:46:40] Login page accessed via GET
+[2025-12-06 03:46:46] Login attempt for user: admin
+[2025-12-06 03:46:46] Authentication successful for user: admin
+[2025-12-06 03:46:46] Redirecting to: /public/index.php/dashboard
+[2025-12-06 04:32:51] Login page accessed via GET
+[2025-12-07 01:12:43] Login page accessed via GET
+[2025-12-08 01:01:57] Login page accessed via GET
+[2025-12-08 01:01:59] Login page accessed via GET
+[2025-12-08 01:02:00] Login page accessed via GET
+[2025-12-08 01:02:01] Login page accessed via GET
+[2025-12-08 01:02:04] Login attempt for user: admin
+[2025-12-08 01:02:05] Authentication successful for user: admin
+[2025-12-08 01:02:05] Redirecting to: /public/index.php/dashboard
