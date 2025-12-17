@@ -18,6 +18,11 @@ class AuthController
     public function login()
     {
         session_start();
+        
+        file_put_contents('C:/xampp/htdocs/Sistema_cochera/debug_login.txt', 
+            date('[Y-m-d H:i:s] ') . "AuthController: Login page hit. Session ID: " . session_id() . "\n", 
+            FILE_APPEND
+        );
 
         // Detectar base_url dinámicamente
         $host = $_SERVER['HTTP_HOST'];

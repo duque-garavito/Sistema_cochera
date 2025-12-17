@@ -14,6 +14,12 @@ $routes = [
     '/login' => ['controller' => 'AuthController', 'method' => 'login'],
     '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
     
+    // Personal Routes
+    '/personal' => ['controller' => 'PersonalController', 'method' => 'index'],
+    '/personal/crear' => ['controller' => 'PersonalController', 'method' => 'crear'],
+    '/caja' => ['controller' => 'CajaController', 'method' => 'index'],
+    '/caja/detalle' => ['controller' => 'CajaController', 'method' => 'detalle'],
+    
     // API endpoints
     '/api/buscar' => ['controller' => 'ApiController', 'method' => 'buscar'],
     '/api/consultar-dni' => ['controller' => 'ApiController', 'method' => 'consultarDNI'],

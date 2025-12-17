@@ -24,8 +24,15 @@ class ApiController
      */
     public function buscar()
     {
+        // Prevent HTML error output from breaking JSON
+        ini_set('display_errors', 0);
+        error_reporting(0);
+
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: no-cache, must-revalidate');
+
+        // Clean any previous output
+        if (ob_get_length()) ob_clean();
 
         $response = ['success' => false, 'data' => []];
 
@@ -66,11 +73,18 @@ class ApiController
      */
     public function consultarDNI()
     {
+        // Prevent HTML error output from breaking JSON
+        ini_set('display_errors', 0);
+        error_reporting(0);
+
         $logFile = 'C:/xampp/htdocs/Sistema_cochera/debug_api.txt';
         file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Request received for DNI lookup\n", FILE_APPEND);
 
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: no-cache, must-revalidate');
+
+        // Clean any previous output
+        if (ob_get_length()) ob_clean();
 
         $response = ['success' => false, 'data' => []];
 

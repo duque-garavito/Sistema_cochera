@@ -14,6 +14,13 @@ class ReporteController
     public function index()
     {
         session_start();
+        
+        // Debug session
+        file_put_contents('C:/xampp/htdocs/Sistema_cochera/debug_session.txt', 
+            date('[Y-m-d H:i:s] ') . "ReporteController: Session ID: " . session_id() . " | User ID: " . ($_SESSION['usuario_id'] ?? 'NULL') . "\n", 
+            FILE_APPEND
+        );
+
         $this->verificarSesion();
 
         $movimientos = [];
@@ -29,10 +36,14 @@ class ReporteController
         require __DIR__ . '/../views/reportes/index.php';
     }
 
-    private function verificarSesion ()
+    private function verificarSesion()
     {
         if (!isset($_SESSION['usuario_id'])) {
-            header('Location: /login');
+            // Detectar base_url para redirección correcta
+            $host = $_SERVER['HTTP_HOST'];
+            $base_url = (preg_match('/^localhost:\d+$/', $host)) ? '' : '/Sistema_cochera';
+            
+            header('Location: ' . $base_url . '/public/index.php/login');
             exit();
         }
     }

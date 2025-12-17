@@ -31,3 +31,103 @@
 [2025-12-08 01:02:04] Login attempt for user: admin
 [2025-12-08 01:02:05] Authentication successful for user: admin
 [2025-12-08 01:02:05] Redirecting to: /public/index.php/dashboard
+[2025-12-14 13:35:11] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 13:35:11] Login page accessed via GET
+[2025-12-14 13:35:17] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 13:35:17] Login attempt for user: admin
+[2025-12-14 13:35:18] Authentication successful for user: admin
+[2025-12-14 13:35:18] Redirecting to: /public/index.php/dashboard
+[2025-12-14 13:36:22] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 13:36:22] Login page accessed via GET
+[2025-12-14 13:36:28] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 13:36:28] Login attempt for user: admin
+[2025-12-14 13:36:28] Authentication successful for user: admin
+[2025-12-14 13:36:28] Redirecting to: /public/index.php/dashboard
+[2025-12-14 14:14:25] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 14:14:25] Login page accessed via GET
+[2025-12-14 14:14:30] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 14:14:30] Login page accessed via GET
+[2025-12-14 14:14:43] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 14:14:43] Login page accessed via GET
+[2025-12-14 14:14:47] AuthController: Login page hit. Session ID: 9uermpa0168iioktdng0ih4f34
+[2025-12-14 14:14:47] Login attempt for user: admin
+[2025-12-14 14:14:47] Authentication successful for user: admin
+[2025-12-14 14:14:47] Redirecting to: /public/index.php/dashboard
+[2025-12-15 05:04:53] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-15 05:04:53] Login page accessed via GET
+[2025-12-15 05:04:57] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-15 05:04:57] Login attempt for user: admin
+[2025-12-15 05:04:57] Authentication successful for user: admin
+[2025-12-15 05:04:57] Redirecting to: /public/index.php/dashboard
+[2025-12-16 16:32:54] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 17:07:51] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 17:07:51] Login page accessed via GET
+[2025-12-16 17:07:55] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 17:07:55] Login attempt for user: admin
+[2025-12-16 17:07:55] Authentication successful for user: admin
+[2025-12-16 17:07:55] Redirecting to: /public/index.php/dashboard
+[2025-12-16 17:42:36] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 17:42:36] Login page accessed via GET
+[2025-12-16 17:42:46] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 17:42:46] Login attempt for user: garavito
+[2025-12-16 17:42:46] Authentication successful for user: garavito
+[2025-12-16 17:42:46] Redirecting to: /public/index.php/dashboard
+[2025-12-16 19:24:47] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:24:47] Login page accessed via GET
+[2025-12-16 19:24:52] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:24:52] Login attempt for user: admin
+[2025-12-16 19:24:52] Authentication successful for user: admin
+[2025-12-16 19:24:52] Redirecting to: /public/index.php/dashboard
+[2025-12-16 20:12:51] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 20:12:51] Login page accessed via GET
+[2025-12-16 20:15:04] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 20:15:04] Login attempt for user: garavito
+[2025-12-16 20:15:04] Authentication failed for user: garavito
+[2025-12-16 20:15:14] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 20:15:14] Login attempt for user: garavito
+[2025-12-16 20:15:14] Authentication successful for user: garavito
+[2025-12-16 20:15:14] Redirecting to: /public/index.php/dashboard
+[2025-12-16 20:15:39] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 20:15:39] Login page accessed via GET
+[2025-12-16 20:15:45] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 20:15:45] Login attempt for user: admin
+[2025-12-16 20:15:45] Authentication successful for user: admin
+[2025-12-16 20:15:45] Redirecting to: /public/index.php/dashboard
+[2025-12-16 19:18:51] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:18:51] Login page accessed via GET
+[2025-12-16 19:18:57] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:18:57] Login attempt for user: admin
+[2025-12-16 19:18:57] Authentication successful for user: admin
+[2025-12-16 19:18:57] Redirecting to: /public/index.php/dashboard
+[2025-12-16 19:19:07] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:19:07] Login page accessed via GET
+[2025-12-16 19:19:17] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-16 19:19:17] Login attempt for user: garavito
+[2025-12-16 19:19:17] Authentication successful for user: garavito
+[2025-12-16 19:19:17] Redirecting to: /public/index.php/dashboard
+[2025-12-17 11:19:07] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:19:07] Login page accessed via GET
+[2025-12-17 11:19:11] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:19:11] Login page accessed via GET
+[2025-12-17 11:19:16] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:19:16] Login attempt for user: garavito
+[2025-12-17 11:19:16] Authentication successful for user: garavito
+[2025-12-17 11:19:16] Redirecting to: /public/index.php/dashboard
+[2025-12-17 11:19:24] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:19:24] Login page accessed via GET
+[2025-12-17 11:19:30] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:19:30] Login attempt for user: admin
+[2025-12-17 11:19:30] Authentication successful for user: admin
+[2025-12-17 11:19:30] Redirecting to: /public/index.php/dashboard
+[2025-12-17 11:20:33] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:20:33] Login page accessed via GET
+[2025-12-17 11:20:42] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:20:42] Login attempt for user: garavito
+[2025-12-17 11:20:42] Authentication successful for user: garavito
+[2025-12-17 11:20:42] Redirecting to: /public/index.php/dashboard
+[2025-12-17 11:21:05] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:21:05] Login page accessed via GET
+[2025-12-17 11:21:11] AuthController: Login page hit. Session ID: qfc7flbvjfg498l2gd4337u54c
+[2025-12-17 11:21:11] Login attempt for user: admin
+[2025-12-17 11:21:11] Authentication successful for user: admin
+[2025-12-17 11:21:11] Redirecting to: /public/index.php/dashboard

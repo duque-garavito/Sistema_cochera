@@ -141,6 +141,32 @@ main {
   box-shadow: var(--shadow-lg);
 }
 
+.vehiculos-container {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 10px;
+  /* Space for scrollbar */
+}
+
+/* Custom Scrollbar */
+.vehiculos-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vehiculos-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.vehiculos-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.vehiculos-container::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
 .card h2 {
   color: var(--primary-color);
   margin-bottom: 1.5rem;
@@ -495,6 +521,7 @@ footer {
   box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
   background: linear-gradient(135deg, #2980b9, var(--secondary-color));
 }
+
 .vehiculo-header {
   border: 1px solid;
   padding: 1rem;
@@ -509,5 +536,5 @@ footer {
   padding: 1rem;
   height: 100%;
   border: 1px solid;
-  margin-bottom: 1rem   ;
+  margin-bottom: 1rem;
 }

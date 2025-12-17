@@ -819,7 +819,14 @@ function consultarDNI(dni) {
     let baseUrl = (typeof BASE_URL !== 'undefined') ? BASE_URL : '/Sistema_cochera'; 
   
   // 2. Use the MVC route via public/index.php to ensure it works without the router script
-  const apiUrl = `${baseUrl}/public/index.php/api/consultar-dni?dni=${encodeURIComponent(dni)}`;
+  let apiUrl;
+  if (baseUrl.endsWith('/public/index.php')) {
+      apiUrl = `${baseUrl}/api/consultar-dni?dni=${encodeURIComponent(dni)}`;
+  } else {
+      // Clean double slashes just in case
+      const cleanBase = baseUrl.replace(/\/$/, '');
+      apiUrl = `${cleanBase}/public/index.php/api/consultar-dni?dni=${encodeURIComponent(dni)}`;
+  }
   
   console.log("Consultando URL:", apiUrl); // This helps you see where it is connecting in the console
   

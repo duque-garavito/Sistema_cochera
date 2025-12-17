@@ -34,8 +34,12 @@ class Vehiculo
     /**
      * Crear nuevo vehículo
      */
-    public function crear($placa, $tipo_vehiculo, $marca = null, $modelo = null, $color = null, $usuario_id)
+    public function crear($placa, $tipo_vehiculo, $marca = null, $modelo = null, $color = null, $usuario_id = null)
     {
+        if ($usuario_id === null) {
+             throw new Exception("Error interno: El ID de usuario es obligatorio.");
+        }
+
         try {
             $stmt = $this->pdo->prepare("INSERT INTO vehiculos (placa, tipo_vehiculo, marca, modelo, color, usuario_id) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([$placa, $tipo_vehiculo, $marca, $modelo, $color, $usuario_id]);
@@ -54,7 +58,7 @@ class Vehiculo
             $stmt = $this->pdo->query("SELECT v.*, u.nombre, u.apellido, u.dni 
                                 FROM vehiculos v 
                                 LEFT JOIN usuarios u ON v.usuario_id = u.id 
-                                ORDER BY v.placa");
+                                ORDER BY v.en_lista_negra DESC, v.placa ASC");
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             throw new Exception("Error al obtener vehículos: " . $e->getMessage());
@@ -143,6 +147,20 @@ class Vehiculo
             return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         } catch (PDOException $e) {
             throw new Exception("Error al obtener conteo por tipo: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Alternar estado de lista negra
+     */
+    public function toggleListaNegra($id, $estado)
+    {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE vehiculos SET en_lista_negra = ? WHERE id = ?");
+            $stmt->execute([$estado, $id]);
+            return true;
+        } catch (PDOException $e) {
+            throw new Exception("Error al actualizar lista negra: " . $e->getMessage());
         }
     }
 }

@@ -2,11 +2,14 @@
 $title = "Reportes";
 $current_page = 'reportes';
 require __DIR__ . '/../layouts/header.php'; 
+// Inicializar variables para prevenir warnings
+$fecha_inicio = $fecha_inicio ?? date('Y-m-d');
+$fecha_fin = $fecha_fin ?? date('Y-m-d');
 ?>
 
 <div class="card">
     <h2>📊 Generar Reporte de Movimientos</h2>
-    <form method="POST" class="form">
+    <form method="POST" action="<?php echo $base_url; ?>/public/index.php/reportes" class="form">
         <div class="form-row">
             <div class="form-group">
                 <label for="fecha_inicio">Fecha Inicio:</label>
@@ -38,6 +41,8 @@ require __DIR__ . '/../layouts/header.php';
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Propietario</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Entrada</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Salida</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Reg. Entrada</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Reg. Salida</th>
                         <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Total</th>
                     </tr>
                 </thead>
@@ -55,6 +60,8 @@ require __DIR__ . '/../layouts/header.php';
                             <td style="padding: 12px;">
                                 <?php echo $mov['fecha_hora_salida'] ? date('d/m/Y H:i', strtotime($mov['fecha_hora_salida'])) : '-'; ?>
                             </td>
+                            <td style="padding: 12px; font-size: 0.9em;"><?php echo htmlspecialchars($mov['personal_entrada'] ?? '-'); ?></td>
+                            <td style="padding: 12px; font-size: 0.9em;"><?php echo htmlspecialchars($mov['personal_salida'] ?? '-'); ?></td>
                             <td style="padding: 12px; text-align: right; font-weight: bold;">
                                 S/ <?php echo number_format($mov['precio_total'] ?? 0, 2); ?>
                             </td>
@@ -63,7 +70,8 @@ require __DIR__ . '/../layouts/header.php';
                 </tbody>
                 <tfoot>
                     <tr style="background: #f8f9fa; font-weight: bold;">
-                        <td colspan="5" style="padding: 12px; text-align: right;">TOTAL:</td>
+                    <tr style="background: #f8f9fa; font-weight: bold;">
+                        <td colspan="7" style="padding: 12px; text-align: right;">TOTAL:</td>
                         <td style="padding: 12px; text-align: right;">S/ <?php echo number_format($total_ingresos, 2); ?></td>
                     </tr>
                 </tfoot>

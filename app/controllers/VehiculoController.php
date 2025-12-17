@@ -26,15 +26,42 @@ class VehiculoController
         $mensaje = '';
         $tipo_mensaje = '';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'registrar_vehiculo') {
-            $resultado = $this->registrar($_POST);
-            $mensaje = $resultado['mensaje'];
-            $tipo_mensaje = $resultado['tipo'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
+            if ($_POST['accion'] === 'registrar_vehiculo') {
+                $resultado = $this->registrar($_POST);
+                $mensaje = $resultado['mensaje'];
+                $tipo_mensaje = $resultado['tipo'];
+            } elseif ($_POST['accion'] === 'alternar_bloqueo') {
+                $resultado = $this->alternarBloqueo($_POST);
+                $mensaje = $resultado['mensaje'];
+                $tipo_mensaje = $resultado['tipo'];
+            }
         }
 
         $vehiculos = $this->vehiculoModel->obtenerTodos();
 
         require __DIR__ . '/../views/vehiculos/index.php';
+    }
+
+    private function alternarBloqueo($datos)
+    {
+        try {
+            $id = $datos['vehiculo_id'];
+            $estado = $datos['nuevo_estado'];
+
+            $this->vehiculoModel->toggleListaNegra($id, $estado);
+
+            $accion = $estado ? 'bloqueado' : 'desbloqueado';
+            return [
+                'mensaje' => "Vehículo $accion exitosamente.",
+                'tipo' => 'success'
+            ];
+        } catch (Exception $e) {
+            return [
+                'mensaje' => $e->getMessage(),
+                'tipo' => 'error'
+            ];
+        }
     }
 
     private function registrar($datos)

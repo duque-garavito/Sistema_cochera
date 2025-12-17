@@ -45,6 +45,24 @@ require __DIR__ . '/../layouts/header.php';
                 </div>
             </div>
 
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="metodo_pago">Método de Pago:</label>
+                    <select id="metodo_pago" name="metodo_pago">
+                        <option value="Efectivo">💵 Efectivo</option>
+                        <option value="Yape">📱 Yape (Billetera)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="momento_pago">Momento de Pago:</label>
+                    <select id="momento_pago" name="momento_pago">
+                        <option value="Salida">🚪 Pagar a la Salida (Por defecto)</option>
+                        <option value="Entrada">🚗 Pagar al Ingreso</option>
+                    </select>
+                    <small style="color: #7f8c8d;">Si es salida, se cobrará ahora.</small>
+                </div>
+            </div>
+
             <!-- Info del Vehículo -->
             <div id="info_vehiculo" class="info-vehiculo" style="display: none;">
                 <div class="info-header">
@@ -85,6 +103,11 @@ require __DIR__ . '/../layouts/header.php';
                     <p><strong>Entrada:</strong>
                         <?php echo date('d/m/Y H:i', strtotime($activo['fecha_hora_entrada'])); ?></p>
                     <p><strong>Precio/Día:</strong> S/ <?php echo number_format($activo['precio_por_dia'], 2); ?></p>
+                    <?php if (!empty($activo['personal_nombre'])): ?>
+                        <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 5px;">
+                            <small>👤 Registrado por: <?php echo htmlspecialchars($activo['personal_nombre']); ?></small>
+                        </p>
+                    <?php endif; ?>
                     <?php if (!empty($activo['observaciones'])): ?>
                     <p><strong>Obs:</strong> <?php echo htmlspecialchars($activo['observaciones']); ?></p>
                     <?php endif; ?>

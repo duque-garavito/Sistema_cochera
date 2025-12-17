@@ -56,6 +56,10 @@ class MovimientoController
             $dni = trim($datos['dni']);
             $tipo_movimiento = $datos['tipo_movimiento'];
             $observaciones = trim($datos['observaciones'] ?? '');
+            
+            // Nuevos campos de pago
+            $metodo_pago = $datos['metodo_pago'] ?? 'Efectivo';
+            $momento_pago = $datos['momento_pago'] ?? 'Salida'; // Por defecto paga a la salida
 
             // Verificar si el vehículo existe
             $vehiculo = $this->vehiculoModel->buscarPorPlaca($placa);
@@ -80,10 +84,18 @@ class MovimientoController
             // Obtener precio por día
             $precio_por_dia = $vehiculo['precio_por_dia'] ?: Vehiculo::obtenerPrecioPorTipo($vehiculo['tipo_vehiculo']);
 
+            // Verificar si está en lista negra (solo para entradas)
+            if ($tipo_movimiento === 'Entrada' && !empty($vehiculo['en_lista_negra'])) {
+                return [
+                    'mensaje' => '⛔ ALERTA: Este vehículo está en la LISTA NEGRA. No se permite el ingreso.',
+                    'tipo' => 'error'
+                ];
+            }
+
             if ($tipo_movimiento === 'Entrada') {
-                return $this->procesarEntrada($vehiculo, $usuario, $precio_por_dia, $observaciones);
+                return $this->procesarEntrada($vehiculo, $usuario, $precio_por_dia, $observaciones, $metodo_pago, $momento_pago);
             } else {
-                return $this->procesarSalida($vehiculo, $precio_por_dia);
+                return $this->procesarSalida($vehiculo, $precio_por_dia, $metodo_pago);
             }
         } catch (Exception $e) {
             return [
@@ -96,7 +108,7 @@ class MovimientoController
     /**
      * Procesar entrada de vehículo
      */
-    private function procesarEntrada($vehiculo, $usuario, $precio_por_dia, $observaciones)
+    private function procesarEntrada($vehiculo, $usuario, $precio_por_dia, $observaciones, $metodo_pago, $momento_pago)
     {
         // Verificar si ya hay un movimiento activo
         $movimiento_activo = $this->movimientoModel->verificarActivo($vehiculo['id']);
@@ -108,12 +120,17 @@ class MovimientoController
             ];
         }
 
-        // Registrar entrada
+        // Registrar entrada (con ID del personal de turno)
+        $personal_id = $_SESSION['usuario_id'] ?? null;
+        
         $this->movimientoModel->registrarEntrada(
             $vehiculo['id'],
             $usuario['id'],
             'Entrada',
-            $precio_por_dia
+            $precio_por_dia,
+            $personal_id,
+            $metodo_pago,
+            $momento_pago
         );
 
         // Actualizar precio en vehículo si no tiene
@@ -130,7 +147,7 @@ class MovimientoController
     /**
      * Procesar salida de vehículo
      */
-    private function procesarSalida($vehiculo, $precio_por_dia)
+    private function procesarSalida($vehiculo, $precio_por_dia, $metodo_pago)
     {
         // Buscar movimiento activo
         $movimiento_activo = $this->movimientoModel->verificarActivo($vehiculo['id']);
@@ -150,7 +167,18 @@ class MovimientoController
         );
 
         // Registrar salida
-        $this->movimientoModel->registrarSalida($movimiento_activo['id'], $precio_total);
+        $personal_id_salida = $_SESSION['usuario_id'] ?? null;
+        
+        // Si el momento de pago original fue 'Entrada', no sobreescribimos el método de pago
+        // Pero si es 'Salida', usamos el método seleccionado ahora
+        $metodo_pago_final = ($movimiento_activo['momento_pago'] === 'Entrada') ? null : $metodo_pago;
+
+        $this->movimientoModel->registrarSalida(
+            $movimiento_activo['id'], 
+            $precio_total, 
+            $personal_id_salida,
+            $metodo_pago_final
+        );
 
         return [
             'mensaje' => '🚪 Salida registrada exitosamente para ' . $vehiculo['placa'] . ' - Total a pagar: S/ ' . number_format($precio_total, 2),

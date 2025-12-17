@@ -5,6 +5,14 @@
  * Todas las peticiones pasan por aquí
  */
 
+// Debugging: Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Configurar zona horaria (Perú)
+date_default_timezone_set('America/Lima');
+
 // Definir constantes
 define('ROOT_PATH', dirname(__DIR__));
 define('APP_PATH', ROOT_PATH . '/app');

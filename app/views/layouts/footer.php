@@ -5,9 +5,7 @@
         </footer>
     </div>
 
-    <script>
-        const BASE_URL = "<?php echo $base_url ?? ''; ?>";
-    </script>
+    <!-- BASE_URL ya definido en header.php -->
     <script src="<?php echo $base_url ?? ''; ?>/public/js/script.js"></script>
 </body>
 </html>

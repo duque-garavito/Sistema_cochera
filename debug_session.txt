@@ -1,0 +1,16 @@
+[2025-12-14 13:29:45] ReporteController: Session ID: 9uermpa0168iioktdng0ih4f34 | User ID: NULL
+[2025-12-14 13:35:10] ReporteController: Session ID: 9uermpa0168iioktdng0ih4f34 | User ID: NULL
+[2025-12-14 14:14:49] ReporteController: Session ID: 9uermpa0168iioktdng0ih4f34 | User ID: 5
+[2025-12-14 14:15:02] ReporteController: Session ID: 9uermpa0168iioktdng0ih4f34 | User ID: 5
+[2025-12-16 16:33:36] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-16 16:33:47] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-16 17:43:26] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 7
+[2025-12-16 17:43:29] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 7
+[2025-12-16 17:56:02] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 7
+[2025-12-17 00:39:22] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 11:20:10] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 11:20:17] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 11:21:17] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 11:21:24] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 17:33:44] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
+[2025-12-17 17:33:48] ReporteController: Session ID: qfc7flbvjfg498l2gd4337u54c | User ID: 5
