@@ -26,10 +26,18 @@ require __DIR__ . '/../layouts/header.php';
                     <label for="tipo_vehiculo">Tipo de Vehículo:</label>
                     <select id="tipo_vehiculo" name="tipo_vehiculo" required>
                         <option value="">Seleccionar...</option>
-                        <option value="Auto">🚗 Auto</option>
-                        <option value="Moto">🏍️ Moto</option>
-                        <option value="Camioneta">🚛 Camioneta</option>
-                        <option value="Otro">🚙 Otro</option>
+                        <?php if (!empty($tarifas)): ?>
+                            <?php foreach ($tarifas as $tarifa): ?>
+                                <option value="<?php echo htmlspecialchars($tarifa['tipo_vehiculo']); ?>">
+                                    <?php echo htmlspecialchars($tarifa['tipo_vehiculo']); ?> - S/ <?php echo number_format($tarifa['precio_base'], 2); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <option value="Auto">Auto</option>
+                            <option value="Moto">Moto</option>
+                            <option value="Camioneta">Camioneta</option>
+                            <option value="Otro">Otro</option>
+                        <?php endif; ?>
                     </select>
                 </div>
             </div>
@@ -82,7 +90,13 @@ require __DIR__ . '/../layouts/header.php';
 
     <!-- Lista de Vehículos Registrados -->
     <section class="card">
-        <h2>📋 Vehículos Registrados</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2 style="margin: 0;">📋 Vehículos Registrados</h2>
+            <div style="position: relative;">
+                <input type="text" id="filtro_vehiculo" placeholder="🔍 Buscar por Placa o DNI..." 
+                       style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; width: 250px;">
+            </div>
+        </div>
         <div class="vehiculos-container">
             <?php if (empty($vehiculos)): ?>
                 <p class="no-data">No hay vehículos registrados</p>

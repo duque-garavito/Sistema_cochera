@@ -19,10 +19,21 @@ class CajaController
         session_start();
         $this->verificarSesionAdmin();
 
-        $fecha = $_POST['fecha'] ?? date('Y-m-d');
+        $fecha = $_POST['fecha'] ?? $_GET['fecha'] ?? date('Y-m-d');
+        
+        file_put_contents(__DIR__ . '/../../debug_caja_live.txt', 
+            date('Y-m-d H:i:s') . " - Request Fecha: $fecha\n" . "POST: " . print_r($_POST, true) . "\n", 
+            FILE_APPEND
+        );
         
         // 1. Ingresos
         $metodos = $this->movimientoModel->obtenerTotalesPorMetodo($fecha);
+        
+        file_put_contents(__DIR__ . '/../../debug_caja_live.txt', 
+            "Metodos Array: " . print_r($metodos, true) . "\n", 
+            FILE_APPEND
+        );
+
         $ingreso_efectivo = $metodos['Efectivo'] ?? 0;
         $ingreso_yape = $metodos['Yape'] ?? 0;
         $total_ingresos = $ingreso_efectivo + $ingreso_yape;
@@ -45,11 +56,21 @@ class CajaController
             try {
                 $descripcion = $_POST['descripcion'];
                 $monto = $_POST['monto'];
+                // La fecha del POST del gasto, para mantenernos en el mismo dia
+                $fecha = $_POST['fecha'] ?? $fecha; 
+                
                 $this->gastoModel->crear($descripcion, $monto, $_SESSION['usuario_id']);
                 
-                // Recargar página para evitar reenvío y actualizar datos
-                header("Location: " . $_SERVER['REQUEST_URI']);
-                exit;
+                // Recargar página CON LA FECHA CORRECTA
+                // Esto es clave: si solo recargamos URI, se pierde el POST fecha.
+                // Como es POST, deberiamos redirigir con GET? O simplemente renderizar de nuevo.
+                // Renderizamos de nuevo, pero seteamos $_POST['fecha'] para que el index() lo tome?
+                // No, mejor redirigir a un render limpio
+                // Pero el index() usa POST para fecha.
+                // Hack: Mostramos el mensaje y seguimos.
+                
+                // header("Location: " . $_SERVER['REQUEST_URI']);
+                // exit;
             } catch (Exception $e) {
                 $mensaje = $e->getMessage();
             }
@@ -64,20 +85,20 @@ class CajaController
         
         // Procesar movimientos
         foreach ($historial_movimientos as $mov) {
-            $fecha = $mov['fecha'];
-            if (!isset($historial[$fecha])) {
-                $historial[$fecha] = ['fecha' => $fecha, 'efectivo' => 0, 'yape' => 0, 'gastos' => 0];
+            $fecha_iter = $mov['fecha'];
+            if (!isset($historial[$fecha_iter])) {
+                $historial[$fecha_iter] = ['fecha' => $fecha_iter, 'efectivo' => 0, 'yape' => 0, 'gastos' => 0];
             }
-            $historial[$fecha]['efectivo'] = $mov['efectivo'];
-            $historial[$fecha]['yape'] = $mov['yape'];
+            $historial[$fecha_iter]['efectivo'] = $mov['efectivo'];
+            $historial[$fecha_iter]['yape'] = $mov['yape'];
         }
 
         // Procesar gastos
-        foreach ($historial_gastos as $fecha => $monto) {
-            if (!isset($historial[$fecha])) {
-                $historial[$fecha] = ['fecha' => $fecha, 'efectivo' => 0, 'yape' => 0, 'gastos' => 0];
+        foreach ($historial_gastos as $fecha_iter => $monto) {
+            if (!isset($historial[$fecha_iter])) {
+                $historial[$fecha_iter] = ['fecha' => $fecha_iter, 'efectivo' => 0, 'yape' => 0, 'gastos' => 0];
             }
-            $historial[$fecha]['gastos'] = $monto;
+            $historial[$fecha_iter]['gastos'] = $monto;
         }
 
         // Ordenar por fecha descendente

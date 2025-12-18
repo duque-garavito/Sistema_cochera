@@ -41,6 +41,8 @@ $fecha_fin = $fecha_fin ?? date('Y-m-d');
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Propietario</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Entrada</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Salida</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Momento Pago</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Método</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Reg. Entrada</th>
                         <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Reg. Salida</th>
                         <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Total</th>
@@ -60,18 +62,45 @@ $fecha_fin = $fecha_fin ?? date('Y-m-d');
                             <td style="padding: 12px;">
                                 <?php echo $mov['fecha_hora_salida'] ? date('d/m/Y H:i', strtotime($mov['fecha_hora_salida'])) : '-'; ?>
                             </td>
+                            <td style="padding: 12px;">
+                                <?php 
+                                    $momento = $mov['momento_pago'] ?? '-';
+                                    $color = $momento === 'Entrada' ? '#2ecc71' : ($momento === 'Salida' ? '#e74c3c' : '#bdc3c7');
+                                    // Iconos: Entrada -> 🚗, Salida -> 🚪
+                                    $icono = $momento === 'Entrada' ? '🚗' : ($momento === 'Salida' ? '🚪' : '');
+                                ?>
+                                <span style="color: <?php echo $color; ?>; font-weight: bold;">
+                                    <?php echo $icono . ' ' . $momento; ?>
+                                </span>
+                            </td>
+                            <td style="padding: 12px;"><?php echo htmlspecialchars($mov['metodo_pago'] ?? '-'); ?></td>
                             <td style="padding: 12px; font-size: 0.9em;"><?php echo htmlspecialchars($mov['personal_entrada'] ?? '-'); ?></td>
                             <td style="padding: 12px; font-size: 0.9em;"><?php echo htmlspecialchars($mov['personal_salida'] ?? '-'); ?></td>
                             <td style="padding: 12px; text-align: right; font-weight: bold;">
                                 S/ <?php echo number_format($mov['precio_total'] ?? 0, 2); ?>
+                                <?php 
+                                    // Detectar si hubo recargo (Feriado) comparando con precio base
+                                    $precio_base = 0;
+                                    switch($mov['tipo_vehiculo']) {
+                                        case 'Moto': $precio_base = 4.00; break;
+                                        case 'Auto': $precio_base = 10.00; break;
+                                        case 'Camioneta': $precio_base = 15.00; break;
+                                        default: $precio_base = 20.00; break; // Otro
+                                    }
+                                    
+                                    $total_actual = floatval($mov['precio_total'] ?? 0);
+                                    if ($total_actual > $precio_base) {
+                                        $diferencia = $total_actual - $precio_base;
+                                        echo '<br><small style="color: #e74c3c; font-weight: normal;">+ S/ ' . number_format($diferencia, 2) . ' (Feriado)</small>';
+                                    }
+                                ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>
                     <tr style="background: #f8f9fa; font-weight: bold;">
-                    <tr style="background: #f8f9fa; font-weight: bold;">
-                        <td colspan="7" style="padding: 12px; text-align: right;">TOTAL:</td>
+                        <td colspan="9" style="padding: 12px; text-align: right;">TOTAL:</td>
                         <td style="padding: 12px; text-align: right;">S/ <?php echo number_format($total_ingresos, 2); ?></td>
                     </tr>
                 </tfoot>

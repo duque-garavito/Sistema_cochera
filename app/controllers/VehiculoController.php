@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/Usuario.php';
 require_once __DIR__ . '/../models/Vehiculo.php';
+require_once __DIR__ . '/../models/Tarifa.php';
 
 /**
  * VehiculoController
@@ -11,11 +12,13 @@ class VehiculoController
 {
     private $usuarioModel;
     private $vehiculoModel;
+    private $tarifaModel;
 
     public function __construct()
     {
         $this->usuarioModel = new Usuario();
         $this->vehiculoModel = new Vehiculo();
+        $this->tarifaModel = new Tarifa();
     }
 
     public function index()
@@ -39,6 +42,11 @@ class VehiculoController
         }
 
         $vehiculos = $this->vehiculoModel->obtenerTodos();
+        try {
+            $tarifas = $this->tarifaModel->obtenerTodas();
+        } catch (Exception $e) {
+            $tarifas = [];
+        }
 
         require __DIR__ . '/../views/vehiculos/index.php';
     }

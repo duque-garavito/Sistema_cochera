@@ -573,3 +573,123 @@
 )
 
 [2025-12-14 12:57:11] Final JSON Response: {"success":true,"data":{"dni":"75186384","nombre":"CRISTHIAN DANIEL","apellido":"DUQUE GARAVITO"}}
+[2025-12-18 10:44:28] Request received for DNI lookup
+[2025-12-18 10:44:28] Processing DNI: 42945454
+[2025-12-18 10:44:29] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 42945454
+            [nombre_completo] => VELASQUEZ SUAREZ, CARMEN
+            [nombres] => CARMEN
+            [apellido_paterno] => VELASQUEZ
+            [apellido_materno] => SUAREZ
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.059885025024414
+)
+
+[2025-12-18 10:44:29] Final JSON Response: {"success":true,"data":{"dni":"42945454","nombre":"CARMEN","apellido":"VELASQUEZ SUAREZ"}}
+[2025-12-18 10:44:29] Request received for DNI lookup
+[2025-12-18 10:44:29] Processing DNI: 42945457
+[2025-12-18 10:44:30] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 42945457
+            [nombre_completo] => GARAVITO MOGOLLON, MARGORI ELIZABETH
+            [nombres] => MARGORI ELIZABETH
+            [apellido_paterno] => GARAVITO
+            [apellido_materno] => MOGOLLON
+            [codigo_verificacion] => 9
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.067370891571045
+)
+
+[2025-12-18 10:44:30] Final JSON Response: {"success":true,"data":{"dni":"42945457","nombre":"MARGORI ELIZABETH","apellido":"GARAVITO MOGOLLON"}}
+[2025-12-18 10:44:39] Request received for DNI lookup
+[2025-12-18 10:44:39] Processing DNI: 41878131
+[2025-12-18 10:44:40] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 41878131
+            [nombre_completo] => DUQUE GARCIA, JOSE CARLOS
+            [nombres] => JOSE CARLOS
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARCIA
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.070658922195435
+)
+
+[2025-12-18 10:44:40] Final JSON Response: {"success":true,"data":{"dni":"41878131","nombre":"JOSE CARLOS","apellido":"DUQUE GARCIA"}}
+[2025-12-18 10:44:41] Request received for DNI lookup
+[2025-12-18 10:44:41] Processing DNI: 41878131
+[2025-12-18 10:44:41] Raw API Response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [numero] => 41878131
+            [nombre_completo] => DUQUE GARCIA, JOSE CARLOS
+            [nombres] => JOSE CARLOS
+            [apellido_paterno] => DUQUE
+            [apellido_materno] => GARCIA
+            [codigo_verificacion] => 4
+            [direccion] => 
+            [direccion_completa] => 
+            [ubigeo_reniec] => 
+            [ubigeo_sunat] => 
+            [ubigeo] => Array
+                (
+                    [0] => 
+                    [1] => 
+                    [2] => 
+                )
+
+        )
+
+    [time] => 0.058284044265747
+)
+
+[2025-12-18 10:44:41] Final JSON Response: {"success":true,"data":{"dni":"41878131","nombre":"JOSE CARLOS","apellido":"DUQUE GARCIA"}}

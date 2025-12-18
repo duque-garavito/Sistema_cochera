@@ -59,6 +59,8 @@ if ($base_url === '/') {
                     class="nav-link <?php echo ($current_page ?? '') === 'personal' ? 'active' : ''; ?>">Personal</a>
                     <a href="<?php echo $base_url; ?>/public/index.php/caja"
                         class="nav-link <?php echo ($current_page ?? '') === 'caja' ? 'active' : ''; ?>">Caja</a>
+                    <a href="<?php echo $base_url; ?>/public/index.php/tarifas"
+                        class="nav-link <?php echo ($current_page ?? '') === 'tarifas' ? 'active' : ''; ?>">Configurar</a>
                 <?php endif; ?>
                 <a href="<?php echo $base_url; ?>/public/index.php/logout" class="nav-link">Salir</a>
             </nav>

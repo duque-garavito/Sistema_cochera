@@ -1,0 +1,442 @@
+2025-12-17 17:51:39 - Request Fecha: 2025-12-17
+2025-12-17 17:51:52 - Request Fecha: 2025-12-17
+2025-12-17 17:51:52 - Request Fecha: 2025-12-17
+2025-12-17 17:51:57 - Request Fecha: 2025-12-17
+2025-12-17 17:52:17 - Request Fecha: 2025-12-17
+2025-12-17 17:52:59 - Request Fecha: 2025-12-15
+2025-12-17 17:53:30 - Request Fecha: 2025-12-17
+2025-12-17 17:53:46 - Request Fecha: 2025-12-17
+2025-12-17 17:54:01 - Request Fecha: 2025-12-17
+2025-12-17 17:54:12 - Request Fecha: 2025-12-17
+2025-12-17 17:54:40 - Request Fecha: 2025-12-17
+2025-12-17 17:54:42 - Request Fecha: 2025-12-17
+2025-12-17 17:55:11 - Request Fecha: 2025-12-17
+2025-12-17 17:55:27 - Request Fecha: 2025-12-17
+2025-12-17 17:55:33 - Request Fecha: 2025-12-17
+2025-12-17 17:55:44 - Request Fecha: 2025-12-17
+2025-12-17 17:56:02 - Request Fecha: 2025-12-17
+2025-12-17 17:56:36 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+)
+
+2025-12-17 17:56:38 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+)
+
+2025-12-17 17:57:13 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:57:17 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:57:25 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:57:59 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:58:04 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:58:30 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:58:33 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 17:58:40 - Request Fecha: 2025-12-17
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:04:42 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:04:47 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:06:18 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:06:23 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:07:18 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:09:08 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:11:07 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:12:05 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:12:09 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:12:13 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:12:24 - Request Fecha: 
+POST: Array
+(
+    [fecha] => 
+)
+
+Metodos Array: Array
+(
+)
+
+2025-12-17 18:12:28 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:13:05 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:13:26 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:13:39 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 10.00
+)
+
+2025-12-17 18:14:16 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 20.00
+)
+
+2025-12-17 18:14:48 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-17 18:25:31 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-17 18:25:37 - Request Fecha: 2025-12-16
+POST: Array
+(
+    [fecha] => 2025-12-16
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 38.00
+)
+
+2025-12-17 18:25:42 - Request Fecha: 2025-12-17
+POST: Array
+(
+    [fecha] => 2025-12-17
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-17 18:25:46 - Request Fecha: 2025-12-15
+POST: Array
+(
+    [fecha] => 2025-12-15
+)
+
+Metodos Array: Array
+(
+)
+
+2025-12-17 18:26:02 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-17 23:11:14 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-17 23:11:34 - Request Fecha: 2025-12-17
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 20.00
+    [Yape] => 20.00
+)
+
+2025-12-18 07:54:53 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+
+2025-12-18 07:55:00 - Request Fecha: 2025-10-01
+POST: Array
+(
+    [fecha] => 2025-10-01
+)
+
+Metodos Array: Array
+(
+)
+
+2025-12-18 10:11:10 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 4.00
+)
+
+2025-12-18 10:11:31 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 10.00
+    [Yape] => 4.00
+)
+
+2025-12-18 10:13:34 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 42.00
+    [Yape] => 4.00
+)
+
+2025-12-18 10:43:24 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 42.00
+    [Yape] => 4.00
+)
+
+2025-12-18 11:33:45 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 42.00
+    [Yape] => 4.00
+)
+
+2025-12-18 11:33:57 - Request Fecha: 2025-12-18
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 42.00
+    [Yape] => 4.00
+)
+

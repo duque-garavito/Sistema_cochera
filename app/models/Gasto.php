@@ -50,13 +50,18 @@ class Gasto
     public function obtenerResumenGastosPorDias($dias = 30)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT DATE(fecha_hora) as fecha, SUM(monto) as total
-                                   FROM gastos 
-                                   WHERE fecha_hora >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-                                   GROUP BY DATE(fecha_hora)
-                                   ORDER BY fecha DESC");
-            $stmt->execute([$dias]);
-            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR); // Retorna [fecha => total]
+            $fecha_fin = date('Y-m-d');
+            
+            $sql = "SELECT DATE(fecha_hora) as fecha, SUM(monto) as total
+                    FROM gastos 
+                    WHERE fecha_hora >= DATE_SUB(?, INTERVAL ? DAY)
+                    AND fecha_hora <= CONCAT(?, ' 23:59:59')
+                    GROUP BY DATE(fecha_hora)
+                    ORDER BY fecha DESC";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$fecha_fin, $dias, $fecha_fin]);
+            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         } catch (PDOException $e) {
             throw new Exception("Error al obtener resumen de gastos: " . $e->getMessage());
         }

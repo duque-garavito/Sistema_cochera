@@ -29,7 +29,22 @@ class DashboardController
 
             // Datos para gráficos
             $vehiculos_por_tipo = $this->vehiculoModel->obtenerConteoPorTipo();
-            $ingresos_semanales = $this->movimientoModel->obtenerIngresosUltimosDias(7);
+            $ingresos_raw = $this->movimientoModel->obtenerIngresosUltimosDias(30);
+            
+            // Rellenar días faltantes con 0 (últimos 30 días)
+            $ingresos_semanales = [];
+            for ($i = 29; $i >= 0; $i--) {
+                $fecha = date('Y-m-d', strtotime("-$i days"));
+                $ingresos_semanales[$fecha] = isset($ingresos_raw[$fecha]) ? $ingresos_raw[$fecha] : 0;
+            }
+
+            // Datos Horas Pico (5am a 10pm)
+            $horas_pico_raw = $this->movimientoModel->obtenerHorasPico();
+            $horas_pico = [];
+            for ($i = 5; $i <= 22; $i++) {
+                $horas_pico[$i] = isset($horas_pico_raw[$i]) ? $horas_pico_raw[$i] : 0;
+            }
+
         } catch (Exception $e) {
             // En caso de error, inicializar variables vacías para evitar errores en la vista
             $stats = [
@@ -41,6 +56,7 @@ class DashboardController
             ];
             $vehiculos_por_tipo = [];
             $ingresos_semanales = [];
+            $horas_pico = array_fill(0, 24, 0); // Inicializar vacio
             $error = "Error al cargar datos del dashboard: " . $e->getMessage();
         }
 

@@ -6,12 +6,89 @@ document.addEventListener("DOMContentLoaded", function () {
   inicializarValidaciones();
   inicializarAnimaciones();
   inicializarBusquedaRapida();
+  inicializarFiltroVehiculos();
 });
 
 /**
  * Inicializar formularios con funcionalidades mejoradas
  */
 function inicializarFormularios() {
+  // Toggle metodo de pago basado en momento de pago y tipo de movimiento
+  const selectMomento = document.getElementById("momento_pago");
+  const selectMetodo = document.getElementById("metodo_pago");
+  const selectTipo = document.getElementById("tipo_movimiento");
+  const checkFeriado = document.getElementById("es_feriado");
+  const inputPrecio = document.getElementById("precio_dia");
+  
+  if (checkFeriado && inputPrecio) {
+      checkFeriado.addEventListener("change", function() {
+          const precioBase = parseFloat(inputPrecio.dataset.precioBase || 0);
+          const tipo = inputPrecio.dataset.tipoVehiculo || 'Otro';
+          
+          if (precioBase > 0) {
+              let aumento = 0;
+              if (this.checked) {
+                  switch(tipo) {
+                      case 'Moto': aumento = 2; break;
+                      case 'Auto': aumento = 4; break;
+                      case 'Camioneta': aumento = 6; break;
+                      default: aumento = 8; break;
+                  }
+              }
+              const precioFinal = precioBase + aumento;
+              inputPrecio.value = `S/ ${precioFinal.toFixed(2)}`;
+          }
+      });
+  }
+  
+  if (selectMomento && selectMetodo && selectTipo) {
+      function actualizarEstadoPago() {
+          const tipo = selectTipo.value;
+          const momento = selectMomento.value;
+          const optionSalida = selectMomento.querySelector('option[value="Salida"]');
+          const optionEntrada = selectMomento.querySelector('option[value="Entrada"]');
+
+          if (tipo === "Salida") {
+              // Contexto: SALIDA (Cobrar ahora si no pagó)
+              if (optionSalida) optionSalida.textContent = "⚠️ Debe pagar para poder salir";
+              
+              // Ocultar opción de "Pagar al Ingreso" ya que es ilógico en salida
+              if (optionEntrada) optionEntrada.style.display = "none";
+              
+              // Forzar selección de salida
+              if (selectMomento.value !== "Salida") selectMomento.value = "Salida";
+
+              // En salida, si dice "Salida" (o sea pagar ahora), el método debe estar activo
+              // (Como forzamos value="Salida" arriba, esto siempre se cumple)
+              selectMetodo.disabled = false;
+              if (selectMetodo.value === "") selectMetodo.value = "Efectivo";
+              
+          } else {
+              // Contexto: ENTRADA (O default)
+              if (optionSalida) optionSalida.textContent = "🚪 Pagar a la Salida (Por defecto)";
+              
+              // Mostrar opción de "Pagar al Ingreso"
+              if (optionEntrada) optionEntrada.style.display = "";
+
+              // En entrada, si dice "Salida" (pagar después), el método debe estar desactivado
+              if (selectMomento.value === "Salida") {
+                  selectMetodo.disabled = true;
+                  selectMetodo.value = "";
+              } else {
+                  selectMetodo.disabled = false;
+                  if (selectMetodo.value === "") selectMetodo.value = "Efectivo";
+              }
+          }
+      }
+
+      // Escuchar cambios
+      selectMomento.addEventListener("change", actualizarEstadoPago);
+      selectTipo.addEventListener("change", actualizarEstadoPago);
+      
+      // Estado inicial
+      actualizarEstadoPago();
+  }
+
   // Auto-formatear placa mientras se escribe
   const inputPlaca = document.getElementById("placa");
   if (inputPlaca) {
@@ -321,7 +398,7 @@ function actualizarTiempoReal() {
 setInterval(actualizarTiempoReal, 1000);
 
 /**
- * Función para exportar datos a CSV
+ * Función para exportar datos a Excel (XLS)
  */
 function exportarCSV() {
   const tabla = document.querySelector(".data-table");
@@ -330,35 +407,61 @@ function exportarCSV() {
     return;
   }
 
-  let csv = "";
-  const filas = tabla.querySelectorAll("tr");
+  // Estilos básicos para Excel
+  const styles = `
+    <style>
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #000000; padding: 8px; text-align: left; }
+      th { background-color: #f2f2f2; font-weight: bold; }
+    </style>
+  `;
 
-  filas.forEach((fila) => {
-    const celdas = fila.querySelectorAll("th, td");
-    const filaData = Array.from(celdas).map((celda) => {
-      let texto = celda.textContent.trim();
-      // Escapar comillas dobles
-      texto = texto.replace(/"/g, '""');
-      return `"${texto}"`;
-    });
-    csv += filaData.join(",") + "\n";
-  });
+  // Construir HTML completo para Excel
+  const html = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="UTF-8">
+      <!--[if gte mso 9]>
+      <xml>
+        <x:ExcelWorkbook>
+          <x:ExcelWorksheets>
+            <x:ExcelWorksheet>
+              <x:Name>Reporte Cochera</x:Name>
+              <x:WorksheetOptions>
+                <x:DisplayGridlines/>
+              </x:WorksheetOptions>
+            </x:ExcelWorksheet>
+          </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+      </xml>
+      <![endif]-->
+      ${styles}
+    </head>
+    <body>
+      <h3>Reporte de Cochera - ${new Date().toLocaleDateString()}</h3>
+      ${tabla.outerHTML}
+    </body>
+    </html>
+  `;
 
-  // Crear y descargar archivo
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  // Crear Blob con tipo Excel
+  const blob = new Blob([html], { type: "application/vnd.ms-excel;charset=utf-8" });
+  
+  // Crear link de descarga
   const link = document.createElement("a");
   const url = URL.createObjectURL(blob);
   link.setAttribute("href", url);
   link.setAttribute(
     "download",
-    `reporte_vehiculos_${new Date().toISOString().split("T")[0]}.csv`
+    `reporte_cochera_${new Date().toISOString().split("T")[0]}.xls`
   );
+  
   link.style.visibility = "hidden";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 
-  mostrarNotificacion("Archivo CSV exportado exitosamente", "success");
+  mostrarNotificacion("Reporte Excel exportado exitosamente", "success");
 }
 
 /**
@@ -545,7 +648,10 @@ function buscarVehiculoExacto(placa) {
                 exacto.tipo_vehiculo, 
                 exacto.precio_dia, 
                 exacto.tipo_movimiento_sugerido, 
-                estado
+                estado,
+                exacto.momento_pago,
+                exacto.metodo_pago_inicial,
+                exacto.es_feriado
             );
         }
       }
@@ -587,7 +693,9 @@ function mostrarSugerencias(resultados, tipoCampo) {
       resultado.tipo_vehiculo
     }', '${resultado.precio_dia}', '${
       resultado.tipo_movimiento_sugerido
-    }', '${estado}')">
+    }', '${estado}', '${resultado.momento_pago || ""}', '${
+      resultado.metodo_pago_inicial || ""
+    }', ${resultado.es_feriado})">
                 <div class="sugerencia-header">
                     <span class="sugerencia-placa">${resultado.placa}</span>
                     <span class="sugerencia-tipo">${
@@ -621,7 +729,7 @@ function ocultarSugerencias() {
 }
 
 /**
- * Seleccionar vehículo de las sugerencias
+ * Seleccionar vehículo y rellenar formulario
  */
 function seleccionarVehiculo(
   placa,
@@ -629,25 +737,114 @@ function seleccionarVehiculo(
   nombre,
   tipo,
   precio,
-  tipoMovimiento,
-  estado
+  tipoSugerido,
+  estado,
+  momentoPago = null,
+  metodoPagoInicial = null,
+  esFeriado = false
 ) {
   // Rellenar campos del formulario
   const campoPlaca = document.getElementById("placa");
   const campoDni = document.getElementById("dni");
   const campoTipoMovimiento = document.getElementById("tipo_movimiento");
   const campoPrecio = document.getElementById("precio_dia");
-
+  const infoVehiculo = document.getElementById("info_vehiculo");
+  const campoMomentoPago = document.getElementById("momento_pago");
+  const campoMetodoPago = document.getElementById("metodo_pago");
+  const checkFeriado = document.getElementById("es_feriado");
+  
+  // Rellenar campos
   if (campoPlaca) campoPlaca.value = placa;
   if (campoDni) campoDni.value = dni;
-  if (campoTipoMovimiento) campoTipoMovimiento.value = tipoMovimiento;
-  if (campoPrecio) campoPrecio.value = `S/ ${parseFloat(precio).toFixed(2)}`;
+
+  // Lógica Checkbox Feriado para Entradas/Salidas
+  if (checkFeriado) {
+      checkFeriado.checked = esFeriado;
+      
+      if (tipoSugerido === 'Salida') {
+          // Bloquear si es salida (mantiene el estado original)
+          checkFeriado.disabled = true;
+      } else {
+          checkFeriado.disabled = false;
+      }
+  }
+  if (campoTipoMovimiento) {
+      // Primero mostrar todas las opciones
+      Array.from(campoTipoMovimiento.options).forEach(opt => opt.style.display = "");
+
+      // Aplicar restricción según el tipo sugerido
+      if (tipoSugerido === 'Entrada') {
+          // Si toca entrada, ocultar salida
+          const optSalida = campoTipoMovimiento.querySelector('option[value="Salida"]');
+          if (optSalida) optSalida.style.display = "none";
+      } else if (tipoSugerido === 'Salida') {
+          // Si toca salida, ocultar entrada
+          const optEntrada = campoTipoMovimiento.querySelector('option[value="Entrada"]');
+          if (optEntrada) optEntrada.style.display = "none";
+      }
+
+      campoTipoMovimiento.value = tipoSugerido;
+      // Disparar evento change para actualizar textos y estados
+      campoTipoMovimiento.dispatchEvent(new Event('change'));
+  }
+  if (campoPrecio) {
+      campoPrecio.value = `S/ ${parseFloat(precio).toFixed(2)}`;
+      // Guardar precio base y tipo para calculos de feriado
+      campoPrecio.dataset.precioBase = precio;
+      campoPrecio.dataset.tipoVehiculo = tipo;
+  }
+
+  // Lógica de Bloqueo de Pagos
+  if (campoMetodoPago && campoMomentoPago) {
+      // Resetear primero
+      campoMetodoPago.disabled = false;
+      campoMomentoPago.disabled = false;
+      
+      // Si es Salida y ya pagó en Entrada
+      // Si es Salida y ya pagó en Entrada
+      if (tipoSugerido === 'Salida' && momentoPago === 'Entrada') {
+          // Bloquear y establecer valores
+          campoMetodoPago.value = metodoPagoInicial;
+          campoMetodoPago.disabled = true;
+          
+          // Crear un input hidden para enviar el valor disabled
+          let hiddenMetodo = document.getElementById("hidden_metodo_pago");
+          if (!hiddenMetodo) {
+              hiddenMetodo = document.createElement("input");
+              hiddenMetodo.type = "hidden";
+              hiddenMetodo.id = "hidden_metodo_pago";
+              hiddenMetodo.name = "metodo_pago";
+              campoMetodoPago.parentNode.appendChild(hiddenMetodo);
+          }
+          hiddenMetodo.value = metodoPagoInicial;
+
+          // Setear momento a "Entrada" (aunque el select tal vez no tenga esa opcion visual, 
+          // pero informativamente deberia decir Pagado)
+          // Asumiremos que el select tiene opciones o le forzamos una
+          // Pero el usuario pidió: "Si paga entrada, no permitir seleccionar al salir"
+          
+          campoMomentoPago.disabled = true; 
+          // Opcional: Podríamos cambiar el texto a "Pagado en Entrada" visualmente
+      } else if (tipoSugerido === 'Salida' && momentoPago !== 'Entrada') {
+           // Si es Salida y NO pagó en entrada -> Debe pagar ahora
+           // Campos habilitados.
+           // Forzar "Pagar a la Salida"
+           campoMomentoPago.value = "Salida"; // Asumiendo que 'Salida' es el value
+           // campoMomentoPago.disabled = true; // Quizas bloquear para forzar pago salida?
+      } else {
+          // Entrada normal
+          // Eliminar hidden si existe
+           const hiddenMetodo = document.getElementById("hidden_metodo_pago");
+           if (hiddenMetodo) hiddenMetodo.remove();
+      }
+  }
 
   // Mostrar información del vehículo
   const infoNombre = document.getElementById("info_nombre");
   const infoTipo = document.getElementById("info_tipo");
   const infoEstado = document.getElementById("info_estado");
-  const infoVehiculo = document.getElementById("info_vehiculo");
+  // infoVehiculo ya declarado arriba
+
 
   if (infoNombre) infoNombre.textContent = nombre;
   if (infoTipo) infoTipo.textContent = tipo;
@@ -664,7 +861,7 @@ function seleccionarVehiculo(
   // Mostrar notificación
   if (typeof mostrarNotificacion === "function") {
     mostrarNotificacion(
-      `Vehículo ${placa} seleccionado - ${tipoMovimiento} sugerido`,
+      `Vehículo ${placa} seleccionado - ${tipoSugerido} sugerido`,
       "success"
     );
   }
@@ -688,6 +885,21 @@ function limpiarFormulario() {
   } else {
     console.warn("Elemento 'precio_dia' no encontrado en el HTML");
   }
+  
+  // Limpiar bloqueos de pago
+  const campoMetodoPago = document.getElementById("metodo_pago");
+  const campoMomentoPago = document.getElementById("momento_pago");
+  const hiddenMetodo = document.getElementById("hidden_metodo_pago");
+  
+  if (campoMetodoPago) {
+      campoMetodoPago.disabled = false;
+      campoMetodoPago.value = "Efectivo"; // Default
+  }
+  if (campoMomentoPago) {
+      campoMomentoPago.disabled = false;
+      campoMomentoPago.value = "Salida"; // Default
+  }
+  if (hiddenMetodo) hiddenMetodo.remove();
 }
 
 /**

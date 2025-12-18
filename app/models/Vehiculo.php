@@ -102,14 +102,21 @@ class Vehiculo
      */
     public static function obtenerPrecioPorTipo($tipo_vehiculo)
     {
-        $precios = [
-            'Auto' => 10.00,
-            'Moto' => 4.00,
-            'Camioneta' => 12.00,
-            'Otro' => 8.00
-        ];
-
-        return $precios[$tipo_vehiculo] ?? 8.00;
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $stmt = $pdo->prepare("SELECT precio_base FROM tarifas WHERE tipo_vehiculo = ? AND estado = 'Activo'");
+            $stmt->execute([$tipo_vehiculo]);
+            $resultado = $stmt->fetch();
+            
+            if ($resultado) {
+                return floatval($resultado['precio_base']);
+            }
+            
+            // Fallback si no encuentra (o para tipos nuevos antes de config)
+            return 8.00;
+        } catch (Exception $e) {
+            return 8.00;
+        }
     }
 
     /**

@@ -1,0 +1,10 @@
+Entro a guardar
+Es POST
+Datos:  - moto Forgon chico
+Intentando crear
+Operacion exitosa
+Entro a guardar
+Es POST
+Datos: 3 - Camioneta
+Intentando actualizar
+Operacion exitosa

@@ -20,6 +20,11 @@ $routes = [
     '/caja' => ['controller' => 'CajaController', 'method' => 'index'],
     '/caja/detalle' => ['controller' => 'CajaController', 'method' => 'detalle'],
     
+    // Tarifas
+    '/tarifas' => ['controller' => 'TarifaController', 'method' => 'index'],
+    '/tarifas/guardar' => ['controller' => 'TarifaController', 'method' => 'guardar'],
+    '/tarifas/eliminar' => ['controller' => 'TarifaController', 'method' => 'eliminar'],
+    
     // API endpoints
     '/api/buscar' => ['controller' => 'ApiController', 'method' => 'buscar'],
     '/api/consultar-dni' => ['controller' => 'ApiController', 'method' => 'consultarDNI'],

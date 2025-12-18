@@ -45,16 +45,31 @@ class ApiController
                     $movimiento_activo = $this->movimientoModel->verificarActivo($resultado['id'] ?? null);
                     $tipo_sugerido = $movimiento_activo ? 'Salida' : 'Entrada';
 
-                    $response['data'][] = [
-                        'id' => $resultado['id'] ?? null,
-                        'placa' => $resultado['placa'] ?? '',
-                        'dni' => $resultado['dni'] ?? '',
-                        'nombre' => ($resultado['nombre'] ?? '') . ' ' . ($resultado['apellido'] ?? ''),
-                        'tipo_vehiculo' => $resultado['tipo_vehiculo'] ?? '',
-                        'precio_dia' => Vehiculo::obtenerPrecioPorTipo($resultado['tipo_vehiculo'] ?? 'Otro'),
-                        'tipo_movimiento_sugerido' => $tipo_sugerido,
-                        'tiene_movimiento_activo' => (bool)$movimiento_activo
-                    ];
+
+                        // Determinar precio real (respetando el precio de entrada si existe)
+                        $precio_base = Vehiculo::obtenerPrecioPorTipo($resultado['tipo_vehiculo'] ?? 'Otro');
+                        $precio_real = ($movimiento_activo && !empty($movimiento_activo['precio_total']) && $movimiento_activo['precio_total'] > 0) 
+                                       ? $movimiento_activo['precio_total'] 
+                                       : $precio_base;
+
+                        // Determinar si es feriado (si el precio real es mayor al base)
+                        $es_feriado = ($precio_real > $precio_base);
+
+                        $response['data'][] = [
+                            'id' => $resultado['id'] ?? null,
+                            'placa' => $resultado['placa'] ?? '',
+                            'dni' => $resultado['dni'] ?? '',
+                            'nombre' => ($resultado['nombre'] ?? '') . ' ' . ($resultado['apellido'] ?? ''),
+                            'tipo_vehiculo' => $resultado['tipo_vehiculo'] ?? '',
+                            'precio_dia' => $precio_real,
+                            'es_feriado' => $es_feriado,
+                            'tipo_movimiento_sugerido' => $tipo_sugerido,
+                            'tiene_movimiento_activo' => (bool)$movimiento_activo,
+                            
+                            // Payment info if active
+                            'momento_pago' => $movimiento_activo['momento_pago'] ?? null,
+                            'metodo_pago_inicial' => $movimiento_activo['metodo_pago'] ?? null
+                        ];
                 }
 
                 $response['success'] = true;

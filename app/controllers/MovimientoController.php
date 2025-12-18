@@ -52,6 +52,9 @@ class MovimientoController
     private function procesarMovimiento($datos)
     {
         try {
+            // DEBUG: Loggear datos recibidos
+            file_put_contents('debug_post.txt', print_r($datos, true));
+
             $placa = trim($datos['placa']);
             $dni = trim($datos['dni']);
             $tipo_movimiento = $datos['tipo_movimiento'];
@@ -81,8 +84,23 @@ class MovimientoController
                 ];
             }
 
-            // Obtener precio por día
+            // Obtener precio por día base
             $precio_por_dia = $vehiculo['precio_por_dia'] ?: Vehiculo::obtenerPrecioPorTipo($vehiculo['tipo_vehiculo']);
+
+            // Aplicar recargo por feriado si fue seleccionado
+            if (!empty($datos['es_feriado']) && $datos['es_feriado'] == '1') {
+                $tipo = $vehiculo['tipo_vehiculo'];
+                $aumento = 0;
+
+                switch ($tipo) {
+                    case 'Moto': $aumento = 2; break;
+                    case 'Auto': $aumento = 4; break;
+                    case 'Camioneta': $aumento = 6; break;
+                    default: $aumento = 8; break; // Otro
+                }
+                
+                $precio_por_dia += $aumento;
+            }
 
             // Verificar si está en lista negra (solo para entradas)
             if ($tipo_movimiento === 'Entrada' && !empty($vehiculo['en_lista_negra'])) {
@@ -160,11 +178,24 @@ class MovimientoController
         }
 
         // Calcular precio total
-        $precio_total = Movimiento::calcularPrecioTotal(
-            $movimiento_activo['fecha_hora_entrada'],
-            date('Y-m-d H:i:s'),
-            $precio_por_dia
-        );
+        
+        // Priorizar el precio pactado a la entrada si existe
+        // Si se registró con recargo (Feriado), ese precio está guardado en precio_total
+        $precio_final_calculo = ($movimiento_activo['precio_total'] > 0) 
+                                ? $movimiento_activo['precio_total'] 
+                                : $precio_por_dia;
+
+        // Si ya pagó a la entrada, mantenemos el precio original sin recalcular por días/horas
+        if ($movimiento_activo['momento_pago'] === 'Entrada') {
+            $precio_total = $movimiento_activo['precio_total'];
+        } else {
+            // Si paga a la salida, calculamos según el tiempo transcurrido
+            $precio_total = Movimiento::calcularPrecioTotal(
+                $movimiento_activo['fecha_hora_entrada'],
+                date('Y-m-d H:i:s'),
+                $precio_final_calculo
+            );
+        }
 
         // Registrar salida
         $personal_id_salida = $_SESSION['usuario_id'] ?? null;

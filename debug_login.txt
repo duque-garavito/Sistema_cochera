@@ -131,3 +131,55 @@
 [2025-12-17 11:21:11] Login attempt for user: admin
 [2025-12-17 11:21:11] Authentication successful for user: admin
 [2025-12-17 11:21:11] Redirecting to: /public/index.php/dashboard
+[2025-12-17 17:44:18] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 17:44:18] Login attempt for user: admin
+[2025-12-17 17:44:18] Authentication successful for user: admin
+[2025-12-17 17:44:18] Redirecting to: /public/index.php/dashboard
+[2025-12-17 17:55:54] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 17:55:54] Login page accessed via GET
+[2025-12-17 17:55:59] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 17:55:59] Login attempt for user: admin
+[2025-12-17 17:55:59] Authentication successful for user: admin
+[2025-12-17 17:55:59] Redirecting to: /public/index.php/dashboard
+[2025-12-17 18:15:00] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 18:15:00] Login page accessed via GET
+[2025-12-17 18:25:23] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 18:25:23] Login attempt for user: admin
+[2025-12-17 18:25:24] Authentication successful for user: admin
+[2025-12-17 18:25:24] Redirecting to: /public/index.php/dashboard
+[2025-12-17 18:26:33] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 18:26:33] Login page accessed via GET
+[2025-12-17 18:26:38] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 18:26:38] Login attempt for user: garavito
+[2025-12-17 18:26:39] Authentication successful for user: garavito
+[2025-12-17 18:26:39] Redirecting to: /public/index.php/dashboard
+[2025-12-17 18:26:50] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 18:26:50] Login page accessed via GET
+[2025-12-17 22:42:15] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 22:42:15] Login attempt for user: admin
+[2025-12-17 22:42:16] Authentication successful for user: admin
+[2025-12-17 22:42:16] Redirecting to: /public/index.php/dashboard
+[2025-12-17 23:35:25] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 23:35:25] Login page accessed via GET
+[2025-12-17 23:35:30] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-17 23:35:30] Login attempt for user: garavito
+[2025-12-17 23:35:30] Authentication successful for user: garavito
+[2025-12-17 23:35:30] Redirecting to: /public/index.php/dashboard
+[2025-12-18 07:48:29] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:48:29] Login page accessed via GET
+[2025-12-18 07:48:34] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:48:34] Login attempt for user: admin
+[2025-12-18 07:48:34] Authentication successful for user: admin
+[2025-12-18 07:48:34] Redirecting to: /public/index.php/dashboard
+[2025-12-18 07:49:44] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:49:44] Login page accessed via GET
+[2025-12-18 07:49:48] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:49:48] Login attempt for user: garavito
+[2025-12-18 07:49:48] Authentication successful for user: garavito
+[2025-12-18 07:49:48] Redirecting to: /public/index.php/dashboard
+[2025-12-18 07:50:04] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:50:04] Login page accessed via GET
+[2025-12-18 07:50:08] AuthController: Login page hit. Session ID: deolknfneu7nns9mint5rll71k
+[2025-12-18 07:50:08] Login attempt for user: admin
+[2025-12-18 07:50:09] Authentication successful for user: admin
+[2025-12-18 07:50:09] Redirecting to: /public/index.php/dashboard

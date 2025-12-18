@@ -21,8 +21,11 @@ class Movimiento
     public function registrarEntrada($vehiculo_id, $usuario_id, $tipo_movimiento, $precio_por_dia, $personal_id, $metodo_pago, $momento_pago)
     {
         try {
-            // Si paga al entrar, registramos el precio como precio_total
-            $precio_total = ($momento_pago === 'Entrada') ? $precio_por_dia : 0;
+            // Si paga al entrar, precio_total es el pago.
+            // Si paga al salir, precio_total es el monto pactado (pendiente)
+            // Esto permite mostrar el precio con recargo en la lista de activos.
+            // La lógica de cálculo de ingresos ignora 'Salida' si no está 'Completado', así que es seguro.
+            $precio_total = $precio_por_dia;
 
             $stmt = $this->pdo->prepare("INSERT INTO movimientos (vehiculo_id, usuario_id, tipo_movimiento, estado, fecha_hora_entrada, personal_id, metodo_pago, momento_pago, precio_total) 
                                    VALUES (?, ?, ?, 'Activo', NOW(), ?, ?, ?, ?)");
@@ -123,7 +126,7 @@ class Movimiento
                         
                         SELECT metodo_pago, precio_total as total 
                         FROM movimientos 
-                        WHERE momento_pago = 'Salida' AND estado = 'Completado' AND DATE(fecha_hora_salida) = ?
+                        WHERE momento_pago = 'Salida' AND fecha_hora_salida IS NOT NULL AND DATE(fecha_hora_salida) = ?
                     ) as unidos 
                     GROUP BY metodo_pago";
 
@@ -188,13 +191,23 @@ class Movimiento
             $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM movimientos WHERE DATE(fecha_hora_entrada) = CURDATE()");
             $stats['movimientos_hoy'] = $stmt->fetch()['total'];
 
-            // Ingresos del día
-            $stmt = $this->pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE DATE(fecha_hora_salida) = CURDATE()");
-            $stats['ingresos_hoy'] = $stmt->fetch()['total'];
+            // Ingresos del día: Sumar Pagos en Entrada (hoy) + Pagos en Salida (hoy)
+            $sql_hoy = "SELECT SUM(total) as total FROM (
+                            SELECT precio_total as total FROM movimientos WHERE momento_pago = 'Entrada' AND DATE(fecha_hora_entrada) = CURDATE()
+                            UNION ALL
+                            SELECT precio_total as total FROM movimientos WHERE momento_pago = 'Salida' AND fecha_hora_salida IS NOT NULL AND DATE(fecha_hora_salida) = CURDATE()
+                        ) as ingresos_hoy_table";
+            $stmt = $this->pdo->query($sql_hoy);
+            $stats['ingresos_hoy'] = $stmt->fetch()['total'] ?? 0;
 
-            // Ingresos del mes
-            $stmt = $this->pdo->query("SELECT COALESCE(SUM(precio_total), 0) as total FROM movimientos WHERE MONTH(fecha_hora_salida) = MONTH(CURDATE()) AND YEAR(fecha_hora_salida) = YEAR(CURDATE())");
-            $stats['ingresos_mes'] = $stmt->fetch()['total'];
+            // Ingresos del mes: Sumar Pagos en Entrada (este mes) + Pagos en Salida (este mes)
+            $sql_mes = "SELECT SUM(total) as total FROM (
+                            SELECT precio_total as total FROM movimientos WHERE momento_pago = 'Entrada' AND MONTH(fecha_hora_entrada) = MONTH(CURDATE()) AND YEAR(fecha_hora_entrada) = YEAR(CURDATE())
+                            UNION ALL
+                            SELECT precio_total as total FROM movimientos WHERE momento_pago = 'Salida' AND fecha_hora_salida IS NOT NULL AND MONTH(fecha_hora_salida) = MONTH(CURDATE()) AND YEAR(fecha_hora_salida) = YEAR(CURDATE())
+                        ) as ingresos_mes_table";
+            $stmt = $this->pdo->query($sql_mes);
+            $stats['ingresos_mes'] = $stmt->fetch()['total'] ?? 0;
 
             return $stats;
         } catch (PDOException $e) {
@@ -270,13 +283,20 @@ class Movimiento
     public function obtenerIngresosUltimosDias($dias = 7)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT DATE(fecha_hora_salida) as fecha, SUM(precio_total) as total 
-                                   FROM movimientos 
-                                   WHERE fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY) 
-                                   AND estado = 'Completado'
-                                   GROUP BY DATE(fecha_hora_salida)
+            $stmt = $this->pdo->prepare("SELECT fecha, SUM(total) as total FROM (
+                                       SELECT DATE(fecha_hora_entrada) as fecha, precio_total as total 
+                                       FROM movimientos 
+                                       WHERE momento_pago = 'Entrada' AND fecha_hora_entrada >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                                       
+                                       UNION ALL
+                                       
+                                       SELECT DATE(fecha_hora_salida) as fecha, precio_total as total 
+                                       FROM movimientos 
+                                       WHERE momento_pago = 'Salida' AND fecha_hora_salida IS NOT NULL AND fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                                   ) as historico
+                                   GROUP BY fecha
                                    ORDER BY fecha ASC");
-            $stmt->execute([$dias]);
+            $stmt->execute([$dias, $dias]);
             return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         } catch (PDOException $e) {
             throw new Exception("Error al obtener ingresos: " . $e->getMessage());
@@ -288,37 +308,50 @@ class Movimiento
     public function obtenerResumenMovimientosPorDias($dias = 30)
     {
         try {
+            $fecha_fin = date('Y-m-d'); // Usar fecha actual de PHP (zona horaria configurada)
+            
             // Consulta compleja para sumar entradas y salidas del mismo día por método de pago
             $sql = "SELECT 
                         fecha,
                         SUM(CASE WHEN metodo_pago = 'Efectivo' THEN total ELSE 0 END) as efectivo,
                         SUM(CASE WHEN metodo_pago = 'Yape' THEN total ELSE 0 END) as yape
-                    FROM (
-                        -- Pagos en ENTRADA
-                        SELECT DATE(fecha_hora_entrada) as fecha, metodo_pago, precio_total as total
-                        FROM movimientos
-                        WHERE momento_pago = 'Entrada' 
-                        AND fecha_hora_entrada >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-
-                        UNION ALL
-
-                        -- Pagos en SALIDA
-                        SELECT DATE(fecha_hora_salida) as fecha, metodo_pago, precio_total as total
-                        FROM movimientos
-                        WHERE momento_pago = 'Salida' 
-                        AND estado = 'Completado'
-                        AND fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-                    ) as diario
-                    GROUP BY fecha
-                    ORDER BY fecha DESC";
-
+            FROM (
+                SELECT DATE(fecha_hora_entrada) as fecha, precio_total as total, metodo_pago 
+                FROM movimientos WHERE momento_pago = 'Entrada' AND fecha_hora_entrada >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                UNION ALL
+                SELECT DATE(fecha_hora_salida) as fecha, precio_total as total, metodo_pago 
+                FROM movimientos WHERE momento_pago = 'Salida' AND fecha_hora_salida IS NOT NULL AND fecha_hora_salida >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            ) as combinado
+            GROUP BY fecha
+            ORDER BY fecha DESC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$dias, $dias]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
-            throw new Exception("Error al obtener resumen de movimientos: " . $e->getMessage());
+            throw new Exception("Error al obtener resumen por días: " . $e->getMessage());
         }
     }
+
+    /**
+     * Obtener horas pico (actividad por hora)
+     */
+    public function obtenerHorasPico()
+    {
+        try {
+            // Contamos entradas solamente por hora
+            $sql = "SELECT hora, COUNT(*) as cantidad FROM (
+                        SELECT HOUR(fecha_hora_entrada) as hora FROM movimientos
+                    ) as actividades
+                    GROUP BY hora
+                    ORDER BY hora ASC";
+            
+            $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_KEY_PAIR); // Retorna [hora => cantidad]
+        } catch (PDOException $e) {
+            return []; // Retorna vacio en caso de error para no romper dashboard
+        }
+    }
+
 
 
     /**
@@ -341,7 +374,7 @@ class Movimiento
                         SELECT p.usuario as nombre_usuario, m.precio_total as total
                         FROM movimientos m
                         JOIN administradores p ON m.personal_id_salida = p.id
-                        WHERE m.momento_pago = 'Salida' AND m.estado = 'Completado' AND DATE(m.fecha_hora_salida) = ?
+                        WHERE m.momento_pago = 'Salida' AND m.fecha_hora_salida IS NOT NULL AND DATE(m.fecha_hora_salida) = ?
                     ) as ingresos
                     GROUP BY nombre_usuario
                     ORDER BY total_recaudado DESC";

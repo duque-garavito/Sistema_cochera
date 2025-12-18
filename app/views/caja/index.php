@@ -5,7 +5,14 @@ require __DIR__ . '/../layouts/header.php';
 ?>
 
 <div class="container" style="max-width: 1200px; margin-top: 2rem;">
-    <h2>💰 Caja del Día (<?php echo date('d/m/Y', strtotime($fecha)); ?>)</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>💰 Caja del Día (<?php echo date('d/m/Y', strtotime($fecha)); ?>)</h2>
+        <form method="POST" class="form-inline" style="display: flex; gap: 10px; align-items: center;">
+            <label for="fecha">Fecha:</label>
+            <input type="date" name="fecha" id="fecha" value="<?php echo $fecha; ?>" class="form-control" onchange="this.form.submit()">
+            <noscript><button type="submit" class="btn btn-primary btn-sm">Ir</button></noscript>
+        </form>
+    </div>
 
     <!-- Resumen Cards -->
     <div class="grid-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 2rem;">
@@ -60,6 +67,7 @@ require __DIR__ . '/../layouts/header.php';
             <?php endif; ?>
             <form method="POST">
                 <input type="hidden" name="accion" value="registrar_gasto">
+                <input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
                 <div class="form-group">
                     <label for="descripcion">Descripción del Gasto:</label>
                     <input type="text" name="descripcion" required placeholder="Ej: Almuerzo personal, Limpieza...">

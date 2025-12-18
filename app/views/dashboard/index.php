@@ -76,10 +76,18 @@ require __DIR__ . '/../layouts/header.php';
 
     <!-- Gráfico de Ingresos -->
     <div class="card" style="padding: 20px;">
-        <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">💰 Ingresos de los Últimos 7 Días</h3>
+        <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">💰 Ingresos de los Últimos 30 Días</h3>
         <div style="height: 300px; position: relative;">
             <canvas id="ingresosChart"></canvas>
         </div>
+    </div>
+</div>
+
+<!-- Gráfico de Horas Pico (Fila Completa) -->
+<div class="card" style="padding: 20px; margin-bottom: 30px;">
+    <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">🕒 Horas Pico de Ingreso</h3>
+    <div style="height: 300px; position: relative;">
+        <canvas id="horasPicoChart"></canvas>
     </div>
 </div>
 
@@ -158,6 +166,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 plugins: {
                     legend: {
                         display: false
+                    }
+                }
+            }
+        });
+    }
+
+    // Datos para Horas Pico
+    const horasData = <?php echo !empty($horas_pico) ? json_encode(array_values($horas_pico)) : '[]'; ?>;
+    // Etiquetas de 5:00 a 22:00
+    const etiquetasHoras = Array.from({length: 18}, (_, i) => (i + 5) + ':00');
+    // Gráfico de Horas Pico (Line)
+    const ctxHoras = document.getElementById('horasPicoChart');
+    if (ctxHoras) {
+        new Chart(ctxHoras, {
+            type: 'line',
+            data: {
+                labels: etiquetasHoras,
+                datasets: [{
+                    label: 'Entradas de Vehículos',
+                    data: horasData,
+                    borderColor: '#f39c12',
+                    backgroundColor: 'rgba(243, 156, 18, 0.2)',
+
+                    fill: true,
+                    tension: 0.4, // Curvas suaves
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Movimientos'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                         callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + ' movimientos';
+                            }
+                        }
                     }
                 }
             }
