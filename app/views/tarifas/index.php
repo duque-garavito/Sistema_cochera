@@ -6,7 +6,7 @@ require __DIR__ . '/../layouts/header.php';
 
 <div class="header-content" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
     <h1>💰 Configuración de Tarifas</h1>
-    <button class="btn-primary" onclick="abrirModal()">
+    <button class="btn btn-primary" onclick="abrirModal()">
         <i class="fas fa-plus"></i> Nueva Tarifa
     </button>
 </div>
@@ -41,10 +41,10 @@ require __DIR__ . '/../layouts/header.php';
                             <span class="badge badge-success"><?php echo $tarifa['estado']; ?></span>
                         </td>
                         <td>
-                            <button class="btn-secondary" onclick="editarTarifa(<?php echo htmlspecialchars(json_encode($tarifa)); ?>)">
+                            <button class="btn btn-sm btn-secondary" onclick="editarTarifa(<?php echo htmlspecialchars(json_encode($tarifa)); ?>)">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
-                            <a href="/tarifas/eliminar?id=<?php echo $tarifa['id']; ?>" class="btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarifa?')">
+                            <a href="/tarifas/eliminar?id=<?php echo $tarifa['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarifa?')">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -78,8 +78,8 @@ require __DIR__ . '/../layouts/header.php';
             </div>
             
             <div style="text-align: right;">
-                <button type="button" class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
-                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </form>
     </div>

@@ -132,4 +132,19 @@ class VehiculoController
             exit();
         }
     }
+    public function buscarVehiculos()
+    {
+        session_start();
+        $this->verificarSesion();
+
+        $termino = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+        if ($termino) {
+            $vehiculos = $this->vehiculoModel->buscar($termino);
+        } else {
+            $vehiculos = $this->vehiculoModel->obtenerTodos();
+        }
+
+        require __DIR__ . '/../views/vehiculos/lista_partial.php';
+    }
 }

@@ -9,6 +9,7 @@ $routes = [
     '/' => ['controller' => 'MovimientoController', 'method' => 'index'],
     '/movimientos' => ['controller' => 'MovimientoController', 'method' => 'index'],
     '/vehiculos' => ['controller' => 'VehiculoController', 'method' => 'index'],
+    '/vehiculos/buscar' => ['controller' => 'VehiculoController', 'method' => 'buscarVehiculos'],
     '/dashboard' => ['controller' => 'DashboardController', 'method' => 'index'],
     '/reportes' => ['controller' => 'ReporteController', 'method' => 'index'],
     '/login' => ['controller' => 'AuthController', 'method' => 'login'],

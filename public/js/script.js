@@ -1129,6 +1129,89 @@ function consultarDNI(dni) {
     });
 }
 
+
+/**
+ * Inicializar filtro de búsqueda de vehículos
+ */
+function inicializarFiltroVehiculos() {
+  const inputFiltro = document.getElementById("filtro_vehiculo");
+  const contenedorVehiculos = document.querySelector(".vehiculos-container");
+  
+  if (!inputFiltro || !contenedorVehiculos) return;
+  
+  let timeoutBusqueda;
+  
+  inputFiltro.addEventListener("input", function() {
+      const termino = this.value.trim();
+      
+      // Limpiar timeout anterior
+      clearTimeout(timeoutBusqueda);
+      
+      // Esperar 300ms antes de buscar
+      timeoutBusqueda = setTimeout(() => {
+          // Mostrar estado de carga (opcional)
+          contenedorVehiculos.style.opacity = "0.5";
+          
+          const baseUrl = (typeof BASE_URL !== 'undefined') ? BASE_URL : '';
+          
+          let searchUrl;
+          if (baseUrl.endsWith('/public/index.php')) {
+               searchUrl = `${baseUrl.replace('/public/index.php', '')}/public/index.php/vehiculos/buscar?q=${encodeURIComponent(termino)}`;
+          } else {
+               // Assuming standard setups
+               searchUrl = `${baseUrl}/public/index.php/vehiculos/buscar?q=${encodeURIComponent(termino)}`;
+               // If BASE_URL is empty, try relative
+               if (baseUrl === '') {
+                   searchUrl = `buscar?q=${encodeURIComponent(termino)}`; 
+                   // NOTE: Relative path depends on current URL. 
+                   // If we are at /vehiculos, 'buscar' becomes /vehiculos/buscar. Correct.
+                   // If we are at /public/index.php/vehiculos, 'buscar' becomes .../vehiculos/buscar.
+                   // Safer to use absolute path construction if possible or reliance on current path structure.
+                   // Given MVC router: /vehiculos -> relative "buscar" -> /vehiculos/buscar.
+                   // But if user is at /Sistema_cochera/public/index.php/vehiculos...
+                   
+                   // Let's try to be smarter with relative pathing
+                   // If we are in the module already, simple 'vehiculos/buscar' might be wrong if we are at 'vehiculos'
+                   
+                   // Best bet: use the router logic approach
+                   searchUrl = `vehiculos/buscar?q=${encodeURIComponent(termino)}`;
+               }
+          }
+           
+           // Better URL construction:
+           // If we are at .../vehiculos, we want .../vehiculos/buscar
+           // But wait, the route is /vehiculos/buscar
+           // If we are at /vehiculos, fetching "vehiculos/buscar" would be /vehiculos/vehiculos/buscar (WRONG)
+           // We want "vehiculos/buscar" relative to ROOT.
+           
+           // Let's use the absolute path approach used in other functions
+           const rootPath = window.location.pathname.includes('/public/index.php') 
+                            ? window.location.pathname.substring(0, window.location.pathname.indexOf('/public/index.php') + 17) // .../public/index.php
+                            : window.location.pathname.substring(0, window.location.pathname.indexOf('/vehiculos')); // .../
+           
+           // If we are using the front controller /public/index.php
+           if (window.location.pathname.includes('/public/index.php')) {
+               searchUrl = `${rootPath}/vehiculos/buscar?q=${encodeURIComponent(termino)}`;
+           } else {
+               // If rewriting is on or we are at root
+               // Fallback:
+               searchUrl = `vehiculos/buscar?q=${encodeURIComponent(termino)}`;
+           }
+          
+          fetch(searchUrl)
+              .then(response => response.text())
+              .then(html => {
+                  contenedorVehiculos.innerHTML = html;
+                  contenedorVehiculos.style.opacity = "1";
+              })
+              .catch(error => {
+                  console.error("Error buscando vehículos:", error);
+                  contenedorVehiculos.style.opacity = "1";
+              });
+      }, 300);
+  });
+}
+
 // Funciones globales para uso en HTML
 window.exportarCSV = exportarCSV;
 window.imprimirReporte = imprimirReporte;
@@ -1136,3 +1219,4 @@ window.mostrarNotificacion = mostrarNotificacion;
 window.validarFormatoPlaca = validarFormatoPlaca;
 window.seleccionarVehiculo = seleccionarVehiculo;
 window.consultarDNI = consultarDNI;
+window.inicializarFiltroVehiculos = inicializarFiltroVehiculos;

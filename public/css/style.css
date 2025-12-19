@@ -264,6 +264,23 @@ textarea:focus {
   width: 100%;
 }
 
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border: 1px solid var(--text-light);
+  color: var(--text-light);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--text-light);
+  color: var(--surface-color);
+  border-color: var(--text-light);
+}
+
 /* Tables */
 .table-container {
   overflow-x: auto;

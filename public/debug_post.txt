@@ -3,7 +3,6 @@ Array
     [placa] => 36792F
     [dni] => 75186384
     [tipo_movimiento] => Salida
-    [momento_pago] => Salida
-    [metodo_pago] => Efectivo
+    [metodo_pago] => Yape
     [observaciones] => 
 )

@@ -440,3 +440,75 @@ Metodos Array: Array
     [Yape] => 4.00
 )
 
+2025-12-19 01:06:20 - Request Fecha: 2025-12-19
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+)
+
+2025-12-19 03:12:29 - Request Fecha: 2025-12-19
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+
+2025-12-19 03:12:52 - Request Fecha: 2025-12-19
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+
+2025-12-19 03:13:03 - Request Fecha: 2025-12-18
+POST: Array
+(
+    [fecha] => 2025-12-18
+)
+
+Metodos Array: Array
+(
+    [Efectivo] => 42.00
+    [Yape] => 4.00
+)
+
+2025-12-19 03:13:10 - Request Fecha: 2025-12-19
+POST: Array
+(
+    [fecha] => 2025-12-19
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+
+2025-12-19 03:13:28 - Request Fecha: 2025-12-19
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+
+2025-12-19 03:13:34 - Request Fecha: 2025-12-19
+POST: Array
+(
+)
+
+Metodos Array: Array
+(
+    [Yape] => 4.00
+)
+

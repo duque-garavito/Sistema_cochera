@@ -32,6 +32,28 @@ class Vehiculo
     }
 
     /**
+     * Buscar vehículos por término (Placa, DNI, Nombre)
+     */
+    public function buscar($termino)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT v.*, u.nombre, u.apellido, u.dni 
+                                  FROM vehiculos v 
+                                  LEFT JOIN usuarios u ON v.usuario_id = u.id 
+                                  WHERE v.placa LIKE ? 
+                                  OR u.dni LIKE ? 
+                                  OR u.nombre LIKE ? 
+                                  OR u.apellido LIKE ?
+                                  ORDER BY v.en_lista_negra DESC, v.placa ASC");
+            $like = '%' . $termino . '%';
+            $stmt->execute([$like, $like, $like, $like]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            throw new Exception("Error al buscar vehículos: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Crear nuevo vehículo
      */
     public function crear($placa, $tipo_vehiculo, $marca = null, $modelo = null, $color = null, $usuario_id = null)
